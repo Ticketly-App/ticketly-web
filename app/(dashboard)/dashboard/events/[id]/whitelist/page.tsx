@@ -92,7 +92,7 @@ export default function EventWhitelistPage({ params }: { params: Promise<{ id: s
 
       {!showBulk ? (
         <div className="glass-strong rounded-2xl p-5 neon-border max-w-xl space-y-4">
-          <h3 className="font-display font-semibold text-white">Add Wallet</h3>
+          <h3 className="font-display text-white">Add Wallet</h3>
           <div className="space-y-3">
             <div className="space-y-1">
               <label className="text-xs text-white/60 uppercase tracking-wider">Wallet Address</label>
@@ -109,7 +109,7 @@ export default function EventWhitelistPage({ params }: { params: Promise<{ id: s
         </div>
       ) : (
         <div className="glass-strong rounded-2xl p-5 neon-border max-w-xl space-y-4">
-          <h3 className="font-display font-semibold text-white">Bulk Import</h3>
+          <h3 className="font-display text-white">Bulk Import</h3>
           <p className="text-xs text-white/40">One wallet per line. Optionally add allocation: <span className="font-mono text-white/60">address,allocation</span></p>
           <textarea value={bulkInput} onChange={(e) => setBulkInput(e.target.value)} rows={6} placeholder="wallet1address&#10;wallet2address,3&#10;wallet3address,5" className="input-field w-full font-mono text-xs resize-none" />
           <button onClick={handleBulkAdd} disabled={isSubmitting} className="btn-primary py-2 px-4 disabled:opacity-40">

@@ -37,7 +37,7 @@ export function DashboardFeature() {
               <p className="text-xs text-white/40 uppercase tracking-wider">{s.label}</p>
               <span className="text-lg">{s.icon}</span>
             </div>
-            <p className={`font-display font-bold text-2xl ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
+            <p className={`font-display text-2xl ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
           </div>
         ))}
       </div>
@@ -45,7 +45,7 @@ export function DashboardFeature() {
       {/* Events Table */}
       <div className="glass rounded-2xl overflow-hidden">
         <div className="px-5 py-4 border-b border-white/08 flex items-center justify-between">
-          <h2 className="font-display font-semibold text-white">My Events</h2>
+          <h2 className="font-display text-white">My Events</h2>
           {publicKey && <Link href="/dashboard/events" className="text-xs text-brand-400 hover:text-brand-300">View all →</Link>}
         </div>
 
@@ -96,11 +96,11 @@ export function DashboardFeature() {
       {/* Quick Links */}
       <div className="grid gap-4 md:grid-cols-2">
         <Link href="/dashboard/revenue" className="glass rounded-xl p-5 hover:bg-white/03 transition-colors group">
-          <h3 className="font-display font-semibold text-white group-hover:text-brand-400 transition-colors mb-1">Revenue Withdrawal</h3>
+          <h3 className="font-display text-white group-hover:text-brand-400 transition-colors mb-1">Revenue Withdrawal</h3>
           <p className="text-xs text-white/40">Withdraw program revenue from your event PDAs.</p>
         </Link>
         <Link href="/gate" className="glass rounded-xl p-5 hover:bg-white/03 transition-colors group">
-          <h3 className="font-display font-semibold text-white group-hover:text-brand-400 transition-colors mb-1">Gate Scanner</h3>
+          <h3 className="font-display text-white group-hover:text-brand-400 transition-colors mb-1">Gate Scanner</h3>
           <p className="text-xs text-white/40">Check in attendees at the event gate.</p>
         </Link>
       </div>

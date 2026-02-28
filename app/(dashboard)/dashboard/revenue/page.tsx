@@ -131,15 +131,15 @@ export default function RevenuePage() {
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         <div className="glass rounded-xl p-5">
           <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Total Revenue</p>
-          <p className="font-display font-bold text-2xl text-brand-400">{lamportsToSol(totalRevenueLamports).toFixed(4)} SOL</p>
+          <p className="font-display text-2xl text-brand-400">{lamportsToSol(totalRevenueLamports).toFixed(4)} SOL</p>
         </div>
         <div className="glass rounded-xl p-5">
           <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Total Tickets Sold</p>
-          <p className="font-display font-bold text-2xl text-white">{totalSold.toLocaleString()}</p>
+          <p className="font-display text-2xl text-white">{totalSold.toLocaleString()}</p>
         </div>
         <div className="glass rounded-xl p-5">
           <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Events with Revenue</p>
-          <p className="font-display font-bold text-2xl text-white">{eventsWithRevenue.length}</p>
+          <p className="font-display text-2xl text-white">{eventsWithRevenue.length}</p>
         </div>
         <div className="glass rounded-xl p-5 flex flex-col justify-between">
           <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Quick Action</p>
@@ -156,7 +156,7 @@ export default function RevenuePage() {
       {/* Per-Event Breakdown */}
       <div className="glass rounded-2xl overflow-hidden">
         <div className="px-5 py-4 border-b border-white/08">
-          <h2 className="font-display font-semibold text-white">Per-Event Revenue</h2>
+          <h2 className="font-display text-white">Per-Event Revenue</h2>
         </div>
 
         {isLoading && <div className="p-6 text-center text-white/40 text-sm">Loading events from devnet...</div>}

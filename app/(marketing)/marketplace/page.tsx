@@ -117,11 +117,11 @@ function MarketplacePage() {
           {/* Stats Bar */}
           <div className="grid gap-4 grid-cols-3 mb-8">
             <div className="glass rounded-xl p-4 text-center">
-              <p className="font-display font-bold text-2xl text-white">{listings.length}</p>
+              <p className="font-display text-2xl text-white">{listings.length}</p>
               <p className="text-xs text-white/40">Active Listings</p>
             </div>
             <div className="glass rounded-xl p-4 text-center">
-              <p className="font-display font-bold text-2xl text-brand-400">
+              <p className="font-display text-2xl text-brand-400">
                 {listings.length > 0
                   ? `${Math.min(...listings.map((l) => l.priceSol)).toFixed(3)} SOL`
                   : '—'}
@@ -129,7 +129,7 @@ function MarketplacePage() {
               <p className="text-xs text-white/40">Floor Price</p>
             </div>
             <div className="glass rounded-xl p-4 text-center">
-              <p className="font-display font-bold text-2xl text-white">{eventKeys.length}</p>
+              <p className="font-display text-2xl text-white">{eventKeys.length}</p>
               <p className="text-xs text-white/40">Events Listed</p>
             </div>
           </div>
@@ -199,7 +199,7 @@ function MarketplacePage() {
                   <div key={listing.id} className="glass-strong rounded-xl p-5 neon-border space-y-4 hover:bg-white/03 transition-colors">
                     {/* Event info */}
                     <div>
-                      <p className="font-display font-semibold text-white truncate">
+                      <p className="font-display text-white truncate">
                         {ev?.name || 'Unknown Event'}
                       </p>
                       <p className="text-xs text-white/40 mt-0.5">{ev?.venue || ''}</p>
@@ -213,7 +213,7 @@ function MarketplacePage() {
                       </div>
                       <div className="text-right">
                         <p className="text-[10px] text-white/40 uppercase">Price</p>
-                        <p className="font-display font-bold text-lg text-brand-400">
+                        <p className="font-display text-lg text-brand-400">
                           {listing.priceSol.toFixed(4)} SOL
                         </p>
                       </div>

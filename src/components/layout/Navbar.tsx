@@ -30,10 +30,10 @@ export function Navbar() {
         <div className="glass-strong rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between border border-white/08">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-sm font-bold font-display text-white">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-sm font-display text-white">
               T
             </div>
-            <span className="font-display font-bold text-lg text-white group-hover:text-brand-400 transition-colors hidden sm:inline">
+            <span className="font-display text-lg text-white group-hover:text-brand-400 transition-colors hidden sm:inline">
               Ticketly
             </span>
           </Link>

@@ -31,7 +31,7 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
             )}
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-display font-bold text-white truncate group-hover:text-brand-400 transition-colors">
+            <h3 className="font-display text-white truncate group-hover:text-brand-400 transition-colors">
               {event.name}
             </h3>
             <div className="flex items-center gap-3 mt-1 text-white/40 text-sm">
@@ -41,7 +41,7 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
             </div>
           </div>
           <div className="text-right flex-shrink-0">
-            <div className="font-display font-bold text-brand-400">
+            <div className="font-display text-brand-400">
               {minPrice === 0 ? "FREE" : `${lamportsToSol(minPrice).toFixed(3)} SOL`}
             </div>
             <div className="text-xs text-white/30 mt-1">
@@ -106,7 +106,7 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
         {/* Content */}
         <div className="p-4 space-y-3">
           <div>
-            <h3 className="font-display font-bold text-white truncate group-hover:text-brand-400 transition-colors">
+            <h3 className="font-display text-white truncate group-hover:text-brand-400 transition-colors">
               {event.name}
             </h3>
             <div className="flex items-center gap-2 mt-1.5 text-xs text-white/40">
@@ -128,7 +128,7 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
               <span className="text-white/30">
                 {totalSold}/{totalSupply} sold
               </span>
-              <span className="font-display font-bold text-brand-400">
+              <span className="font-display text-brand-400">
                 {minPrice === 0 ? "FREE" : `${lamportsToSol(minPrice).toFixed(3)} SOL`}
               </span>
             </div>

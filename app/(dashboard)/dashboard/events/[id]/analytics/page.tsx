@@ -5,7 +5,7 @@ import { useTicketlyEvent, mapTicketTier } from '@/hooks/use-ticketly-events'
 import { lamportsToSol } from '@/lib/ticketly/ticketly-query'
 
 const TIER_NAMES: Record<string, string> = { '0': 'General', '1': 'Early Bird', '2': 'VIP', '3': 'VVIP', '4': 'Custom' }
-const TIER_COLORS = ['#d946ef', '#06b6d4', '#22c55e', '#f59e0b', '#8b5cf6']
+const TIER_COLORS = ['#FF5000', '#06b6d4', '#22c55e', '#f59e0b', '#8b5cf6']
 
 export default function EventAnalyticsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -39,7 +39,7 @@ export default function EventAnalyticsPage({ params }: { params: Promise<{ id: s
         ].map((s) => (
           <div key={s.label} className="glass rounded-xl p-4">
             <p className="text-xs text-white/40 uppercase tracking-wider mb-1">{s.label}</p>
-            <p className={`font-display font-bold text-xl ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
+            <p className={`font-display text-xl ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
             {s.sub && <p className="text-xs text-white/30 mt-0.5">{s.sub}</p>}
           </div>
         ))}
@@ -47,7 +47,7 @@ export default function EventAnalyticsPage({ params }: { params: Promise<{ id: s
 
       {/* Tier Breakdown */}
       <div className="glass rounded-2xl p-5 space-y-4">
-        <h3 className="font-display font-semibold text-white">Tier Breakdown</h3>
+        <h3 className="font-display text-white">Tier Breakdown</h3>
         <div className="space-y-3">
           {tiers.map((tier, i) => {
             const percent = tier.supply > 0 ? (tier.minted / tier.supply) * 100 : 0
@@ -76,28 +76,28 @@ export default function EventAnalyticsPage({ params }: { params: Promise<{ id: s
       {/* Visual Charts Placeholder */}
       <div className="grid gap-4 md:grid-cols-2">
         <div className="glass rounded-2xl p-5 space-y-3">
-          <h3 className="font-display font-semibold text-white">Sales Progress</h3>
+          <h3 className="font-display text-white">Sales Progress</h3>
           <div className="relative h-48 flex items-center justify-center">
             <svg viewBox="0 0 200 200" className="w-40 h-40">
               <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="16" />
               <circle cx="100" cy="100" r="80" fill="none" stroke="url(#grad)" strokeWidth="16" strokeLinecap="round" strokeDasharray={`${sellThrough * 5.02} ${502 - sellThrough * 5.02}`} strokeDashoffset="125.5" />
-              <defs><linearGradient id="grad"><stop offset="0%" stopColor="#d946ef" /><stop offset="100%" stopColor="#06b6d4" /></linearGradient></defs>
+              <defs><linearGradient id="grad"><stop offset="0%" stopColor="#FF5000" /><stop offset="100%" stopColor="#06b6d4" /></linearGradient></defs>
             </svg>
             <div className="absolute inset-0 flex items-center justify-center flex-col">
-              <span className="font-display font-bold text-3xl text-white">{sellThrough.toFixed(0)}%</span>
+              <span className="font-display text-3xl text-white">{sellThrough.toFixed(0)}%</span>
               <span className="text-xs text-white/40">Sold</span>
             </div>
           </div>
         </div>
         <div className="glass rounded-2xl p-5 space-y-3">
-          <h3 className="font-display font-semibold text-white">Check-in Rate</h3>
+          <h3 className="font-display text-white">Check-in Rate</h3>
           <div className="relative h-48 flex items-center justify-center">
             <svg viewBox="0 0 200 200" className="w-40 h-40">
               <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="16" />
               <circle cx="100" cy="100" r="80" fill="none" stroke="#39ff14" strokeWidth="16" strokeLinecap="round" strokeDasharray={`${checkInRate * 5.02} ${502 - checkInRate * 5.02}`} strokeDashoffset="125.5" opacity="0.8" />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center flex-col">
-              <span className="font-display font-bold text-3xl text-white">{checkInRate.toFixed(0)}%</span>
+              <span className="font-display text-3xl text-white">{checkInRate.toFixed(0)}%</span>
               <span className="text-xs text-white/40">Checked In</span>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default function EventAnalyticsPage({ params }: { params: Promise<{ id: s
 
       {/* Event Info */}
       <div className="glass rounded-2xl p-5 space-y-2 text-sm">
-        <h3 className="font-display font-semibold text-white mb-3">Event Details</h3>
+        <h3 className="font-display text-white mb-3">Event Details</h3>
         <div className="grid grid-cols-2 gap-3">
           <div><span className="text-white/40">Venue:</span> <span className="text-white ml-1">{event.venue}</span></div>
           <div><span className="text-white/40">Start:</span> <span className="text-white ml-1">{new Date(Number(event.eventStart) * 1000).toLocaleString()}</span></div>

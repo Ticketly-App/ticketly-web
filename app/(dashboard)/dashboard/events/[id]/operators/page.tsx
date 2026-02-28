@@ -84,7 +84,7 @@ export default function EventOperatorsPage({ params }: { params: Promise<{ id: s
 
       {/* Add Operator */}
       <div className="glass-strong rounded-2xl p-5 neon-border max-w-xl space-y-4">
-        <h3 className="font-display font-semibold text-white">Add Operator</h3>
+        <h3 className="font-display text-white">Add Operator</h3>
         <div className="space-y-2">
           <label className="text-xs text-white/60 uppercase tracking-wider">Wallet Address</label>
           <input type="text" value={operatorAddress} onChange={(e) => setOperatorAddress(e.target.value)} placeholder="Enter operator wallet address" className="input-field w-full font-mono text-sm" />

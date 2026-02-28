@@ -302,7 +302,7 @@ export default function CreateEventPage() {
       <div className="glass-strong rounded-2xl p-6 neon-border space-y-5">
         {step === 'Basic Info' && (
           <>
-            <h3 className="font-display font-semibold text-white text-lg">Basic Information</h3>
+            <h3 className="font-display text-white text-lg">Basic Information</h3>
             <div className="space-y-4">
               <div className="space-y-1">
                 <label className="text-xs text-white/60 uppercase tracking-wider">Event Name *</label>
@@ -331,7 +331,7 @@ export default function CreateEventPage() {
 
         {step === 'Date & Venue' && (
           <>
-            <h3 className="font-display font-semibold text-white text-lg">Date & Venue</h3>
+            <h3 className="font-display text-white text-lg">Date & Venue</h3>
             <div className="space-y-4">
               <div className="space-y-1">
                 <label className="text-xs text-white/60 uppercase tracking-wider">Venue *</label>
@@ -355,7 +355,7 @@ export default function CreateEventPage() {
         {step === 'Tickets' && (
           <>
             <div className="flex items-center justify-between">
-              <h3 className="font-display font-semibold text-white text-lg">Ticket Tiers</h3>
+              <h3 className="font-display text-white text-lg">Ticket Tiers</h3>
               <button onClick={addTier} className="btn-secondary py-1.5 px-3 text-xs">+ Add Tier</button>
             </div>
             <div className="space-y-4">
@@ -399,7 +399,7 @@ export default function CreateEventPage() {
 
         {step === 'Advanced' && (
           <>
-            <h3 className="font-display font-semibold text-white text-lg">Advanced Settings</h3>
+            <h3 className="font-display text-white text-lg">Advanced Settings</h3>
             <div className="space-y-5">
               {/* Resale */}
               <div className="glass rounded-xl p-4 space-y-3">

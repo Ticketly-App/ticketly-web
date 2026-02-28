@@ -109,14 +109,14 @@ export default function EventManagementPage({ params }: { params: Promise<{ id: 
         ].map((s) => (
           <div key={s.label} className="glass rounded-xl p-4">
             <p className="text-xs text-white/40 uppercase tracking-wider mb-1">{s.label}</p>
-            <p className={`font-display font-bold text-xl ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
+            <p className={`font-display text-xl ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
           </div>
         ))}
       </div>
 
       {/* Tiers */}
       <div className="glass rounded-2xl p-5 space-y-3">
-        <h3 className="font-display font-semibold text-white">Ticket Tiers</h3>
+        <h3 className="font-display text-white">Ticket Tiers</h3>
         <div className="space-y-2">
           {tiers.map((tier, i) => (
             <div key={i} className="flex items-center justify-between glass rounded-xl p-3">
@@ -156,7 +156,7 @@ export default function EventManagementPage({ params }: { params: Promise<{ id: 
             </div>
           ) : (
             <div className="glass-strong rounded-2xl p-5 neon-border space-y-4">
-              <h3 className="font-display font-semibold text-white">Edit Event</h3>
+              <h3 className="font-display text-white">Edit Event</h3>
               <div className="space-y-3">
                 <div className="space-y-1">
                   <label className="text-xs text-white/60 uppercase tracking-wider">Name</label>

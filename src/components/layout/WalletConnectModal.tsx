@@ -48,10 +48,10 @@ export function WalletConnectModal() {
 
           {/* Text */}
           <div className="text-center">
-            <h2 className="font-display font-bold text-2xl text-white mb-2">
+            <h2 className="font-display text-2xl text-white mb-2">
               Connect Your Wallet
             </h2>
-            <p className="text-white/40 text-sm leading-relaxed">
+            <p className="text-white/40 text-sm leading-relaxed font-body">
               Connect a Solana wallet to explore events, buy tickets, and access your dashboard.
             </p>
           </div>
@@ -59,13 +59,15 @@ export function WalletConnectModal() {
           {/* Features list */}
           <div className="space-y-2">
             {[
-              { icon: '🎫', text: 'Mint NFT tickets directly' },
-              { icon: '🔒', text: 'On-chain verified ownership' },
-              { icon: '⚡', text: 'Instant check-in at events' },
+              { text: 'Mint NFT tickets directly', iconPath: 'M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z' },
+              { text: 'On-chain verified ownership', iconPath: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' },
+              { text: 'Instant check-in at events', iconPath: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z' },
             ].map((item) => (
               <div key={item.text} className="flex items-center gap-3 glass rounded-xl px-4 py-2.5">
-                <span className="text-lg">{item.icon}</span>
-                <span className="text-sm text-white/60">{item.text}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-brand-400 flex-shrink-0">
+                  <path d={item.iconPath} />
+                </svg>
+                <span className="text-sm text-white/60 font-body">{item.text}</span>
               </div>
             ))}
           </div>
@@ -88,14 +90,14 @@ export function WalletConnectModal() {
             </button>
             <button
               onClick={() => setDismissed(true)}
-              className="w-full py-2.5 text-sm text-white/30 hover:text-white/60 transition-colors"
+              className="w-full py-2.5 text-sm text-white/30 hover:text-white/60 transition-colors font-body"
             >
               Continue without wallet
             </button>
           </div>
 
           {/* Footer note */}
-          <p className="text-[11px] text-white/20 text-center">
+          <p className="text-[11px] text-white/20 text-center font-body">
             Running on Solana Devnet. No real funds required.
           </p>
         </div>

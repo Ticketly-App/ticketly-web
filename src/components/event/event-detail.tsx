@@ -206,7 +206,7 @@ export function EventDetail({ eventKey }: { eventKey: string }) {
         <div className="max-w-6xl mx-auto grid gap-8 lg:grid-cols-[1fr_400px]">
           {/* Tiers */}
           <div className="space-y-6">
-            <h2 className="font-display font-bold text-xl text-white">Select Ticket Tier</h2>
+            <h2 className="font-display text-xl text-white">Select Ticket Tier</h2>
             <div className="space-y-3">
               {tiers.map((tier, i) => {
                 const tierName = TIER_NAMES[tier.tierType] || `Tier ${i}`
@@ -224,10 +224,10 @@ export function EventDetail({ eventKey }: { eventKey: string }) {
                         <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${isSelected ? 'border-brand-400' : 'border-white/20'}`}>
                           {isSelected && <div className="w-2 h-2 rounded-full bg-brand-400" />}
                         </div>
-                        <span className="font-display font-semibold text-white">{tierName}</span>
+                        <span className="font-display text-white">{tierName}</span>
                         {tier.soldOut && <span className="badge bg-red-500/20 text-red-400 border-red-500/30 text-[10px]">Sold Out</span>}
                       </div>
-                      <span className="font-display font-bold text-brand-400">
+                      <span className="font-display text-brand-400">
                         {tier.priceSol === 0 ? 'FREE' : `${tier.priceSol.toFixed(4)} SOL`}
                       </span>
                     </div>
@@ -245,7 +245,7 @@ export function EventDetail({ eventKey }: { eventKey: string }) {
 
             {/* Stats */}
             <div className="glass rounded-2xl p-6">
-              <h3 className="font-display font-semibold text-white mb-4">Event Stats</h3>
+              <h3 className="font-display text-white mb-4">Event Stats</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
                   { label: 'Total Minted', value: Number(event.totalMinted).toString() },
@@ -255,7 +255,7 @@ export function EventDetail({ eventKey }: { eventKey: string }) {
                 ].map((s) => (
                   <div key={s.label}>
                     <p className="text-xs text-white/40 uppercase tracking-wider mb-1">{s.label}</p>
-                    <p className={`font-display font-bold text-lg ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
+                    <p className={`font-display text-lg ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
                   </div>
                 ))}
               </div>
@@ -266,19 +266,19 @@ export function EventDetail({ eventKey }: { eventKey: string }) {
           <div className="lg:sticky lg:top-28 h-fit">
             <div className="glass-strong rounded-2xl p-6 neon-border space-y-5">
               <div>
-                <h3 className="font-display font-bold text-lg text-white">Buy Ticket</h3>
+                <h3 className="font-display text-lg text-white">Buy Ticket</h3>
                 <p className="text-xs text-white/40 mt-1">Mint an NFT ticket directly to your wallet on Solana devnet.</p>
               </div>
               {activeTier && (
                 <div className="glass rounded-xl p-4 space-y-2">
                   <div className="flex items-center justify-between"><span className="text-sm text-white/60">Tier</span><span className="text-sm font-medium text-white">{TIER_NAMES[activeTier.tierType] || `Tier ${selectedTier}`}</span></div>
-                  <div className="flex items-center justify-between"><span className="text-sm text-white/60">Price</span><span className="font-display font-bold text-brand-400">{activeTier.priceSol === 0 ? 'FREE' : `${activeTier.priceSol.toFixed(4)} SOL`}</span></div>
+                  <div className="flex items-center justify-between"><span className="text-sm text-white/60">Price</span><span className="font-display text-brand-400">{activeTier.priceSol === 0 ? 'FREE' : `${activeTier.priceSol.toFixed(4)} SOL`}</span></div>
                   <div className="flex items-center justify-between"><span className="text-sm text-white/60">Available</span><span className="text-sm text-white">{activeTier.available} / {activeTier.supply}</span></div>
                 </div>
               )}
               <div className="flex items-center justify-between pt-2 border-t border-white/08">
                 <span className="text-sm text-white/60">Total</span>
-                <span className="font-display font-bold text-xl text-white">{activeTier ? (activeTier.priceSol === 0 ? 'FREE' : `${activeTier.priceSol.toFixed(4)} SOL`) : '—'}</span>
+                <span className="font-display text-xl text-white">{activeTier ? (activeTier.priceSol === 0 ? 'FREE' : `${activeTier.priceSol.toFixed(4)} SOL`) : '—'}</span>
               </div>
               <button onClick={handleMint} disabled={isMinting || !activeTier || activeTier.soldOut || event.isCancelled || !publicKey} className="btn-primary w-full py-4 text-base disabled:opacity-40 disabled:cursor-not-allowed">
                 {isMinting ? (<span className="flex items-center justify-center gap-2"><svg className="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>Minting...</span>) : !publicKey ? 'Connect Wallet' : activeTier?.soldOut ? 'Sold Out' : event.isCancelled ? 'Event Cancelled' : 'Mint Ticket'}

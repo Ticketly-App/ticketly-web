@@ -202,7 +202,7 @@ export default function GatePage() {
               </div>
               <div>
                 <p className="text-xs text-white/40">Session Check-ins</p>
-                <p className="font-display font-bold text-white text-xl">{sessionCount}</p>
+                <p className="font-display text-white text-xl">{sessionCount}</p>
               </div>
             </div>
             {isOperator !== null && (
@@ -256,7 +256,7 @@ export default function GatePage() {
                   {lastResult.status === 'valid' ? '\u2713' : lastResult.status === 'already_used' ? '!' : '\u2717'}
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-white text-lg">
+                  <h3 className="font-display text-white text-lg">
                     {lastResult.status === 'valid' ? 'Valid - Checked In' : lastResult.status === 'already_used' ? 'Already Used' : lastResult.status === 'invalid' ? 'Invalid Ticket' : 'Error'}
                   </h3>
                   <p className="text-sm text-white/60">{lastResult.message}</p>

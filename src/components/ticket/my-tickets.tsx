@@ -221,7 +221,7 @@ export function MyTicketsSection() {
           <div className="glass-strong rounded-2xl p-6 max-w-md w-full mx-4 neon-border" onClick={(e) => e.stopPropagation()}>
             {showModal === 'qr' && (
               <div className="space-y-4 text-center">
-                <h3 className="font-display font-bold text-lg text-white">Ticket QR Code</h3>
+                <h3 className="font-display text-lg text-white">Ticket QR Code</h3>
                 <p className="text-xs text-white/40">Show this at the gate for verification</p>
                 <QRCodeCanvas value={selectedTicket.publicKey} />
                 <p className="font-mono text-xs text-white/40 break-all">{selectedTicket.publicKey}</p>
@@ -230,7 +230,7 @@ export function MyTicketsSection() {
             )}
             {showModal === 'list' && (
               <div className="space-y-4">
-                <h3 className="font-display font-bold text-lg text-white">List for Resale</h3>
+                <h3 className="font-display text-lg text-white">List for Resale</h3>
                 <p className="text-xs text-white/40">Set your asking price in SOL</p>
                 {(() => {
                   const ev = selectedTicket ? events.find((e) => e.publicKey === selectedTicket.eventKey) : null
@@ -248,7 +248,7 @@ export function MyTicketsSection() {
             )}
             {showModal === 'transfer' && (
               <div className="space-y-4">
-                <h3 className="font-display font-bold text-lg text-white">Transfer Ticket</h3>
+                <h3 className="font-display text-lg text-white">Transfer Ticket</h3>
                 <p className="text-xs text-white/40">Enter the recipient wallet address</p>
                 <input type="text" placeholder="Recipient wallet address" value={transferAddr} onChange={(e) => setTransferAddr(e.target.value)} className="input-field w-full" />
                 <div className="flex gap-3">
@@ -282,7 +282,7 @@ function TicketCard({ ticket, eventName, onShowQR, onList, onTransfer, onCancelL
       <div className="flex items-start justify-between">
         <div>
           <p className="text-xs text-white/40 font-mono">#{ticket.ticketNumber.toString()}</p>
-          <h3 className="font-display font-bold text-white text-lg">{eventName}</h3>
+          <h3 className="font-display text-white text-lg">{eventName}</h3>
           <p className="text-sm text-white/50">{tierName}</p>
         </div>
         <StatusBadge status={ticket.status} />
@@ -331,7 +331,7 @@ function QRCodeCanvas({ value }: { value: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
     if (canvasRef.current) {
-      QRCode.toCanvas(canvasRef.current, value, { width: 200, margin: 2, color: { dark: '#d946ef', light: '#0a0a0f' } }).catch(() => {})
+      QRCode.toCanvas(canvasRef.current, value, { width: 200, margin: 2, color: { dark: '#FF5000', light: '#0a0a0f' } }).catch(() => {})
     }
   }, [value])
   return <canvas ref={canvasRef} className="mx-auto rounded-xl" />

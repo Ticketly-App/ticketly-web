@@ -25,8 +25,8 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
         {/* Logo */}
         <div className="p-6 border-b border-white/08">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-sm font-bold font-display">T</div>
-            <span className="font-display font-bold text-lg text-white group-hover:text-brand-400 transition-colors">Ticketly</span>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-sm font-display">T</div>
+            <span className="font-display text-lg text-white group-hover:text-brand-400 transition-colors">Ticketly</span>
           </Link>
         </div>
 
@@ -72,7 +72,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
             {/* Mobile menu */}
             <div className="lg:hidden flex items-center gap-3">
               <Link href="/" className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-xs font-bold font-display">T</div>
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-xs font-display">T</div>
               </Link>
             </div>
 

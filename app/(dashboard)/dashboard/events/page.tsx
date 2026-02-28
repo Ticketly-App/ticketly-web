@@ -70,7 +70,7 @@ export default function DashboardEventsPage() {
                   <div className="flex items-center justify-between gap-4">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-3 mb-1">
-                        <h3 className="font-display font-semibold text-white truncate group-hover:text-brand-400 transition-colors">
+                        <h3 className="font-display text-white truncate group-hover:text-brand-400 transition-colors">
                           {event.name}
                         </h3>
                         <span className="font-mono text-[10px] text-white/30 flex-shrink-0 flex items-center gap-1">
