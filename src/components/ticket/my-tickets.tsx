@@ -5,7 +5,7 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { useCluster } from '@/components/cluster/cluster-data-access'
 import { Connection, PublicKey, Transaction } from '@solana/web3.js'
 import { useTicketlyTickets, type TicketlyTicket } from '@/hooks/use-ticketly-tickets'
-import { useTicketlyEvents } from '@/hooks/use-ticketly-events'
+import { useTicketlyEvents, type TicketlyEvent } from '@/hooks/use-ticketly-events'
 import {
   listTicketInstruction,
   cancelListingInstruction,
@@ -20,6 +20,9 @@ import { sigDescription } from '@/components/use-transaction-toast'
 import { useQueryClient } from '@tanstack/react-query'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { GeneratedBanner } from '@/components/ui/GeneratedBanner'
+import { MapPin, Clock, QrCode, ArrowRightLeft, Tag, X, Award } from 'lucide-react'
+import { format } from 'date-fns'
 import QRCode from 'qrcode'
 
 const TOKEN_METADATA_PROGRAM = new PublicKey('metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s')
@@ -53,9 +56,8 @@ export function MyTicketsSection() {
     return eventEnd >= now && !t.isListed
   })
 
-  const getEventName = (eventKey: string) => {
-    const ev = events.find((e) => e.publicKey === eventKey)
-    return ev?.name || `Event ${eventKey.slice(0, 8)}...`
+  const getEvent = (eventKey: string) => {
+    return events.find((e) => e.publicKey === eventKey) || null
   }
 
   const sendTx = async (ix: any) => {
@@ -162,11 +164,12 @@ export function MyTicketsSection() {
     <div className="min-h-screen bg-dark-950">
       <Navbar />
       <main className="pt-28 pb-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-8">
-            <div className="badge badge-active mb-4">My Collection</div>
-            <h1 className="heading-display text-4xl md:text-5xl text-white mb-3">My <span className="gradient-text">Tickets</span></h1>
-            <p className="text-white/40">Your on-chain tickets. Show QR at the gate for instant verification.</p>
+        <div className="max-w-3xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="heading-display text-4xl md:text-5xl text-white mb-2">My <span className="gradient-text">Tickets</span></h1>
+              <p className="text-white/40">Your on-chain tickets. Show QR at the gate for instant verification.</p>
+            </div>
           </div>
 
           {!publicKey && (
@@ -178,13 +181,16 @@ export function MyTicketsSection() {
           {publicKey && (
             <>
               {/* Tabs */}
-              <div className="flex gap-2 mb-6">
-                {(['upcoming', 'past', 'listed'] as Tab[]).map((tab) => (
-                  <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === tab ? 'bg-brand-600/20 text-brand-400 border border-brand-600/30' : 'glass border border-white/08 text-white/50 hover:text-white'}`}>
-                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                    <span className="ml-1.5 text-xs opacity-60">({tickets.filter((t) => { const ev = events.find((e) => e.publicKey === t.eventKey); const end = ev ? Number(ev.eventEnd) : Infinity; if (tab === 'listed') return t.isListed; if (tab === 'past') return end < now && !t.isListed; return end >= now && !t.isListed }).length})</span>
-                  </button>
-                ))}
+              <div className="inline-flex items-center bg-white/5 border border-white/10 rounded-xl p-1 mb-8">
+                {(['upcoming', 'past', 'listed'] as Tab[]).map((tab) => {
+                  const count = tickets.filter((t) => { const ev = events.find((e) => e.publicKey === t.eventKey); const end = ev ? Number(ev.eventEnd) : Infinity; if (tab === 'listed') return t.isListed; if (tab === 'past') return end < now && !t.isListed; return end >= now && !t.isListed }).length
+                  return (
+                    <button key={tab} onClick={() => setActiveTab(tab)} className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === tab ? 'bg-white/10 text-white shadow-sm' : 'text-white/40 hover:text-white/60'}`}>
+                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                      {count > 0 && <span className="ml-1.5 text-xs opacity-50">({count})</span>}
+                    </button>
+                  )
+                })}
               </div>
 
               {isLoading && <div className="glass rounded-2xl p-8 text-center"><p className="text-white/50">Loading tickets from devnet...</p></div>}
@@ -195,12 +201,12 @@ export function MyTicketsSection() {
                 </div>
               )}
 
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-4">
                 {filteredTickets.map((ticket) => (
                   <TicketCard
                     key={ticket.publicKey}
                     ticket={ticket}
-                    eventName={getEventName(ticket.eventKey)}
+                    event={getEvent(ticket.eventKey)}
                     onShowQR={() => { setSelectedTicket(ticket); setShowModal('qr') }}
                     onList={() => { setSelectedTicket(ticket); setListPrice(''); setShowModal('list') }}
                     onTransfer={() => { setSelectedTicket(ticket); setTransferAddr(''); setShowModal('transfer') }}
@@ -217,15 +223,17 @@ export function MyTicketsSection() {
 
       {/* Modals */}
       {showModal && selectedTicket && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => !processing && setShowModal(null)}>
-          <div className="glass-strong rounded-2xl p-6 max-w-md w-full mx-4 neon-border" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md" onClick={() => !processing && setShowModal(null)}>
+          <div className={`mx-4 rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-2xl shadow-2xl shadow-black/40 ${showModal === 'qr' ? 'max-w-xs p-5' : 'max-w-md p-6'} w-full`} onClick={(e) => e.stopPropagation()}>
             {showModal === 'qr' && (
-              <div className="space-y-4 text-center">
-                <h3 className="font-display text-lg text-white">Ticket QR Code</h3>
-                <p className="text-xs text-white/40">Show this at the gate for verification</p>
-                <QRCodeCanvas value={selectedTicket.publicKey} />
-                <p className="font-mono text-xs text-white/40 break-all">{selectedTicket.publicKey}</p>
-                <button onClick={() => setShowModal(null)} className="btn-secondary w-full py-3">Close</button>
+              <div className="flex flex-col items-center gap-3">
+                <h3 className="font-display text-base text-white tracking-wide">Ticket QR</h3>
+                <p className="text-[11px] text-white/40">Show this at the gate</p>
+                <div className="rounded-xl bg-dark-900/60 p-2.5 border border-white/5">
+                  <QRCodeCanvas value={selectedTicket.publicKey} />
+                </div>
+                <p className="font-mono text-[10px] text-white/30 break-all leading-relaxed max-w-[200px] text-center">{selectedTicket.publicKey}</p>
+                <button onClick={() => setShowModal(null)} className="w-full py-2 text-xs font-medium rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all">Close</button>
               </div>
             )}
             {showModal === 'list' && (
@@ -265,9 +273,9 @@ export function MyTicketsSection() {
   )
 }
 
-function TicketCard({ ticket, eventName, onShowQR, onList, onTransfer, onCancelListing, onMintPoap, isProcessing }: {
+function TicketCard({ ticket, event, onShowQR, onList, onTransfer, onCancelListing, onMintPoap, isProcessing }: {
   ticket: TicketlyTicket
-  eventName: string
+  event: TicketlyEvent | null
   onShowQR: () => void
   onList: () => void
   onTransfer: () => void
@@ -276,39 +284,96 @@ function TicketCard({ ticket, eventName, onShowQR, onList, onTransfer, onCancelL
   isProcessing: boolean
 }) {
   const tierName = TIER_NAMES[ticket.tierType] || `Tier ${ticket.tierIndex}`
+  const eventName = event?.name || `Event ${ticket.eventKey.slice(0, 8)}...`
+  const venue = event?.venue || 'Unknown Venue'
+  const eventStart = event ? new Date(Number(event.eventStart) * 1000) : null
+  const imageUri = event?.metadataUri || ''
+  const hasRealImage = imageUri && !imageUri.includes('ticketly.dev/metadata')
+  const organizer = event?.authority ? `${event.authority.slice(0, 4)}...${event.authority.slice(-4)}` : '—'
 
   return (
-    <div className="ticket-card p-5 space-y-4">
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-xs text-white/40 font-mono">#{ticket.ticketNumber.toString()}</p>
-          <h3 className="font-display text-white text-lg">{eventName}</h3>
-          <p className="text-sm text-white/50">{tierName}</p>
+    <div className="ticket-card group overflow-hidden transition-all duration-300 hover:border-white/20">
+      <div className="flex">
+        {/* Left content */}
+        <div className="flex-1 p-5 space-y-3 min-w-0">
+          {/* Time */}
+          {eventStart && (
+            <p className="text-sm text-white/40 font-medium">
+              {format(eventStart, 'h:mm a')}
+            </p>
+          )}
+
+          {/* Event name */}
+          <h3 className="font-display text-white text-xl leading-tight truncate">{eventName}</h3>
+
+          {/* Organizer */}
+          <div className="flex items-center gap-2 text-sm text-white/40">
+            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-[10px] text-white font-bold">
+              {eventName.charAt(0).toUpperCase()}
+            </div>
+            <span>By {organizer}</span>
+          </div>
+
+          {/* Venue */}
+          <div className="flex items-center gap-1.5 text-sm text-white/40">
+            <MapPin className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="truncate">{venue}</span>
+          </div>
+
+          {/* Badge row */}
+          <div className="flex items-center gap-2 pt-1">
+            <StatusBadge status={ticket.status} />
+            <span className="text-xs text-white/30 font-mono">#{ticket.ticketNumber.toString()}</span>
+            <span className="text-xs text-white/30">·</span>
+            <span className="text-xs text-white/30">{tierName}</span>
+            {ticket.isListed && ticket.listedPriceSol && (
+              <>
+                <span className="text-xs text-white/30">·</span>
+                <span className="text-xs text-brand-400 font-medium">{ticket.listedPriceSol.toFixed(4)} SOL</span>
+              </>
+            )}
+          </div>
         </div>
-        <StatusBadge status={ticket.status} />
+
+        {/* Right image */}
+        <div className="flex items-center pr-5 py-4 flex-shrink-0">
+          <div className="w-24 h-24 md:w-28 md:h-28 rounded-xl overflow-hidden bg-dark-800">
+            {hasRealImage ? (
+              <img src={imageUri} alt={eventName} className="w-full h-full object-cover" />
+            ) : (
+              <GeneratedBanner name={eventName} category={event?.symbol || ''} size="sm" showInitial={true} />
+            )}
+          </div>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4 text-xs text-white/40">
-        <span>Paid: {ticket.pricePaidSol.toFixed(4)} SOL</span>
-        <span>Minted: {new Date(Number(ticket.mintedAt) * 1000).toLocaleDateString()}</span>
-        {ticket.isListed && ticket.listedPriceSol && <span className="text-brand-400">Listed: {ticket.listedPriceSol.toFixed(4)} SOL</span>}
-      </div>
-
-      <div className="flex flex-wrap gap-2 pt-2">
-        <button onClick={onShowQR} className="btn-secondary text-xs px-3 py-1.5">QR Code</button>
+      {/* Action buttons */}
+      <div className="flex items-center gap-2 px-5 pb-4 pt-1">
+        <button onClick={onShowQR} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all">
+          <QrCode className="w-3.5 h-3.5" />
+          QR Code
+        </button>
         {ticket.status === 'valid' && !ticket.isListed && (
           <>
-            <button onClick={onList} className="btn-secondary text-xs px-3 py-1.5">List for Sale</button>
-            <button onClick={onTransfer} className="btn-secondary text-xs px-3 py-1.5">Transfer</button>
+            <button onClick={onList} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all">
+              <Tag className="w-3.5 h-3.5" />
+              List for Sale
+            </button>
+            <button onClick={onTransfer} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all">
+              <ArrowRightLeft className="w-3.5 h-3.5" />
+              Transfer
+            </button>
           </>
         )}
         {ticket.isListed && (
-          <button onClick={onCancelListing} disabled={isProcessing} className="btn-danger text-xs px-3 py-1.5 disabled:opacity-40">
+          <button onClick={onCancelListing} disabled={isProcessing} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500/20 transition-all disabled:opacity-40">
+            <X className="w-3.5 h-3.5" />
             {isProcessing ? 'Cancelling...' : 'Cancel Listing'}
           </button>
         )}
         {ticket.isCheckedIn && !ticket.status.includes('poap') && (
-          <button onClick={onMintPoap} disabled={isProcessing} className="btn-primary text-xs px-3 py-1.5 disabled:opacity-40">
+          <button onClick={onMintPoap} disabled={isProcessing} className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-brand-500/10 border border-brand-500/20 text-brand-400 hover:bg-brand-500/20 transition-all disabled:opacity-40">
+            <Award className="w-3.5 h-3.5" />
             {isProcessing ? 'Minting...' : 'Mint POAP'}
           </button>
         )}
@@ -319,19 +384,19 @@ function TicketCard({ ticket, eventName, onShowQR, onList, onTransfer, onCancelL
 
 function StatusBadge({ status }: { status: string }) {
   const config = {
-    valid: { label: 'Active', cls: 'badge-active' },
-    checked_in: { label: 'Used', cls: 'bg-white/10 text-white/50 border-white/10' },
-    listed: { label: 'Listed', cls: 'badge-vip' },
+    valid: { label: 'Going', cls: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
+    checked_in: { label: 'Attended', cls: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
+    listed: { label: 'Listed', cls: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
     expired: { label: 'Expired', cls: 'bg-white/10 text-white/40 border-white/10' },
   }[status] || { label: status, cls: 'bg-white/10 text-white/50 border-white/10' }
-  return <span className={`badge ${config.cls}`}>{config.label}</span>
+  return <span className={`inline-flex items-center text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${config.cls}`}>{config.label}</span>
 }
 
 function QRCodeCanvas({ value }: { value: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   useEffect(() => {
     if (canvasRef.current) {
-      QRCode.toCanvas(canvasRef.current, value, { width: 200, margin: 2, color: { dark: '#FF5000', light: '#0a0a0f' } }).catch(() => {})
+      QRCode.toCanvas(canvasRef.current, value, { width: 160, margin: 2, color: { dark: '#FF5000', light: '#00000000' } }).catch(() => {})
     }
   }, [value])
   return <canvas ref={canvasRef} className="mx-auto rounded-xl" />

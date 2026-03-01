@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mon
 export const metadata: Metadata = {
   metadataBase: new URL('https://ticketly.tech'),
   title: {
-    default: 'Ticketly - OnChain Event Ticketing on Solana',
+    default: 'Ticketly | On-Chain Event Ticketing on Solana',
     template: '%s | Ticketly',
   },
   description: 'Mint, verify, and trade event tickets as NFTs on Solana. Zero fraud, instant check-in, programmable royalties.',
@@ -31,18 +31,27 @@ export const metadata: Metadata = {
     shortcut: '/favicon.ico',
   },
   openGraph: {
-    title: 'Ticketly — On-Chain Event Ticketing on Solana',
+    title: 'Ticketly | On-Chain Event Ticketing on Solana',
     description: 'Tokenized tickets. Zero fraud. Instant check-in. Powered by Solana.',
     siteName: 'Ticketly',
     url: 'https://ticketly.tech',
     type: 'website',
     locale: 'en_US',
+    images: [
+      {
+        url: '/og-banner.png',
+        width: 1200,
+        height: 630,
+        alt: 'Ticketly | On-Chain Event Ticketing on Solana',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Ticketly - OnChain Event Ticketing',
     description: 'Tokenized tickets. Zero fraud. Instant check-in. Powered by Solana.',
     site: '@ticketly_app',
+    images: ['/og-banner.png'],
   },
 }
 
