@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
 
-export const alt = 'Ticketly — On-Chain Event Ticketing on Solana'
+export const alt = 'Ticketly - OnChain Event Ticketing on Solana'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 

@@ -34,7 +34,7 @@ export async function GET(
     const tierName = (ticket as any)?.tierName || 'General Admission'
     const ticketIndex = (ticket as any)?.ticketIndex ?? ticketId
 
-    const imageUrl = `${appUrl}/api/metadata/ticket/${eventKey}/${ticketId}/image.svg`
+    const imageUrl = `${appUrl}/api/metadata/ticket/${eventKey}/${ticketId}/image.png`
 
     // Return Metaplex-standard metadata
     const metadata = {
@@ -52,7 +52,7 @@ export async function GET(
         { trait_type: 'Platform', value: 'Ticketly' },
       ],
       properties: {
-        files: [{ uri: imageUrl, type: 'image/svg+xml' }],
+        files: [{ uri: imageUrl, type: 'image/png' }],
         category: 'ticket',
         creators: [],
       },
