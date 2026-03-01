@@ -74,7 +74,7 @@ export function Footer() {
               {[
                 { href: '/docs', label: 'Documentation' },
                 { href: '/faq', label: 'FAQ' },
-                { href: `https://solscan.io/account/${PROGRAM_ID}?cluster=devnet`, label: 'Solscan Explorer' },
+                { href: `https://explorer.solana.com/address/${PROGRAM_ID}?cluster=devnet`, label: 'SolExplorer' },
                 { href: 'https://github.com/Ticketly-App', label: 'GitHub' },
               ].map((link) => {
                 const isExternal = link.href.startsWith('http')
@@ -98,7 +98,7 @@ export function Footer() {
             <div className="glass rounded-xl p-3">
               <p className="text-[10px] text-white/20 mb-1 font-body uppercase tracking-wider">Program ID (Devnet)</p>
               <a
-                href={`https://solscan.io/account/${PROGRAM_ID}?cluster=devnet`}
+                href={`https://explorer.solana.com/address/${PROGRAM_ID}?cluster=devnet`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-brand-400 hover:text-brand-300 font-mono break-all leading-relaxed transition-colors inline-flex items-start gap-1"

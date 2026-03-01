@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://ticketly.tech">Live App</a> ·
-  <a href="https://solscan.io/account/GawjtcQFx5cnK24VrDiUhGdg4DZbVGLzsSsd4vbxznfs?cluster=devnet">Program on Solscan</a>
+  <a href="https://explorer.solana.com/address/GawjtcQFx5cnK24VrDiUhGdg4DZbVGLzsSsd4vbxznfs?cluster=devnet">Program on SolExplorer</a>
 </p>
 
 ---
