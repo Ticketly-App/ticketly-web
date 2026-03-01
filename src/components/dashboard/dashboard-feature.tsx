@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { useTicketlyEvents } from '@/hooks/use-ticketly-events'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { lamportsToSol } from '@/lib/ticketly/ticketly-query'
+import { DollarSign, Ticket, UserCheck, CalendarDays, PlusCircle, ArrowUpRight, ScanLine } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 export function DashboardFeature() {
   const { publicKey } = useWallet()
@@ -14,6 +16,13 @@ export function DashboardFeature() {
   const totalSold = myEvents.reduce((acc, e) => acc + Number(e.totalMinted), 0)
   const totalCheckedIn = myEvents.reduce((acc, e) => acc + Number(e.totalCheckedIn), 0)
 
+  const kpiCards: { label: string; value: string; icon: LucideIcon; accent: boolean; iconBg: string; iconColor: string }[] = [
+    { label: 'Total Revenue', value: `${lamportsToSol(totalRevenue).toFixed(4)} SOL`, icon: DollarSign, accent: true, iconBg: 'bg-brand-600/15', iconColor: 'text-brand-400' },
+    { label: 'Tickets Sold', value: totalSold.toLocaleString(), icon: Ticket, accent: false, iconBg: 'bg-cyan-500/15', iconColor: 'text-neon-cyan' },
+    { label: 'Checked In', value: totalCheckedIn.toLocaleString(), icon: UserCheck, accent: false, iconBg: 'bg-green-500/15', iconColor: 'text-neon-green' },
+    { label: 'Active Events', value: myEvents.filter((e) => e.isActive && !e.isCancelled).length.toString(), icon: CalendarDays, accent: false, iconBg: 'bg-amber-500/15', iconColor: 'text-amber-400' },
+  ]
+
   return (
     <div className="space-y-8">
       <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -21,32 +30,39 @@ export function DashboardFeature() {
           <h1 className="heading-display text-3xl md:text-4xl text-white mb-2">Dashboard</h1>
           <p className="text-white/40 text-sm">Create events, monitor performance, and withdraw revenue.</p>
         </div>
-        <Link href="/dashboard/events/create" className="btn-primary py-3 px-6 text-sm w-fit">Create Event</Link>
+        <Link href="/dashboard/events/create" className="btn-primary py-3 px-6 text-sm w-fit">
+          <PlusCircle className="w-4 h-4" />
+          Create Event
+        </Link>
       </header>
 
       {/* KPI Cards */}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        {[
-          { label: 'Total Revenue', value: `${lamportsToSol(totalRevenue).toFixed(4)} SOL`, icon: '💰', accent: true },
-          { label: 'Tickets Sold', value: totalSold.toLocaleString(), icon: '🎫' },
-          { label: 'Checked In', value: totalCheckedIn.toLocaleString(), icon: '✅' },
-          { label: 'Active Events', value: myEvents.filter((e) => e.isActive && !e.isCancelled).length.toString(), icon: '📅' },
-        ].map((s) => (
-          <div key={s.label} className="glass rounded-xl p-5 group hover:bg-white/03 transition-colors">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs text-white/40 uppercase tracking-wider">{s.label}</p>
-              <span className="text-lg">{s.icon}</span>
+        {kpiCards.map((s) => {
+          const Icon = s.icon
+          return (
+            <div key={s.label} className="glass rounded-xl p-5 group hover:bg-white/03 transition-all hover:shadow-lg hover:shadow-brand-600/5">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-xs text-white/40 uppercase tracking-wider">{s.label}</p>
+                <div className={`w-9 h-9 rounded-lg ${s.iconBg} flex items-center justify-center`}>
+                  <Icon className={`w-4 h-4 ${s.iconColor}`} strokeWidth={1.5} />
+                </div>
+              </div>
+              <p className={`font-display text-2xl ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
             </div>
-            <p className={`font-display text-2xl ${s.accent ? 'text-brand-400' : 'text-white'}`}>{s.value}</p>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {/* Events Table */}
       <div className="glass rounded-2xl overflow-hidden">
         <div className="px-5 py-4 border-b border-white/08 flex items-center justify-between">
           <h2 className="font-display text-white">My Events</h2>
-          {publicKey && <Link href="/dashboard/events" className="text-xs text-brand-400 hover:text-brand-300">View all →</Link>}
+          {publicKey && (
+            <Link href="/dashboard/events" className="text-xs text-brand-400 hover:text-brand-300 inline-flex items-center gap-1">
+              View all <ArrowUpRight className="w-3 h-3" />
+            </Link>
+          )}
         </div>
 
         {isLoading && <div className="p-6 text-center text-white/40 text-sm">Loading events from devnet...</div>}
@@ -54,7 +70,12 @@ export function DashboardFeature() {
         {!isLoading && !publicKey && <div className="p-6 text-center text-white/40 text-sm">Connect a wallet to see your events.</div>}
 
         {!isLoading && publicKey && myEvents.length === 0 && (
-          <div className="p-6 text-center text-white/40 text-sm">No events yet. Create your first event to get started.</div>
+          <div className="p-10 text-center">
+            <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-white/05 flex items-center justify-center">
+              <CalendarDays className="w-6 h-6 text-white/20" />
+            </div>
+            <p className="text-white/40 text-sm">No events yet. Create your first event to get started.</p>
+          </div>
         )}
 
         {!isLoading && myEvents.length > 0 && (
@@ -95,13 +116,23 @@ export function DashboardFeature() {
 
       {/* Quick Links */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Link href="/dashboard/revenue" className="glass rounded-xl p-5 hover:bg-white/03 transition-colors group">
-          <h3 className="font-display text-white group-hover:text-brand-400 transition-colors mb-1">Revenue Withdrawal</h3>
-          <p className="text-xs text-white/40">Withdraw program revenue from your event PDAs.</p>
+        <Link href="/dashboard/revenue" className="glass rounded-xl p-5 hover:bg-white/03 transition-all group hover:shadow-lg hover:shadow-brand-600/5">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-9 h-9 rounded-lg bg-brand-600/15 flex items-center justify-center">
+              <DollarSign className="w-4 h-4 text-brand-400" strokeWidth={1.5} />
+            </div>
+            <h3 className="font-display text-white group-hover:text-brand-400 transition-colors">Revenue Withdrawal</h3>
+          </div>
+          <p className="text-xs text-white/40 ml-12">Withdraw program revenue from your event PDAs.</p>
         </Link>
-        <Link href="/gate" className="glass rounded-xl p-5 hover:bg-white/03 transition-colors group">
-          <h3 className="font-display text-white group-hover:text-brand-400 transition-colors mb-1">Gate Scanner</h3>
-          <p className="text-xs text-white/40">Check in attendees at the event gate.</p>
+        <Link href="/gate" className="glass rounded-xl p-5 hover:bg-white/03 transition-all group hover:shadow-lg hover:shadow-brand-600/5">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-9 h-9 rounded-lg bg-cyan-500/15 flex items-center justify-center">
+              <ScanLine className="w-4 h-4 text-neon-cyan" strokeWidth={1.5} />
+            </div>
+            <h3 className="font-display text-white group-hover:text-brand-400 transition-colors">Gate Scanner</h3>
+          </div>
+          <p className="text-xs text-white/40 ml-12">Check in attendees at the event gate.</p>
         </Link>
       </div>
     </div>

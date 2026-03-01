@@ -169,7 +169,11 @@ export default function EventsPage() {
           {/* Empty state */}
           {!isLoading && events.length === 0 && (
             <div className="glass rounded-2xl p-16 text-center">
-              <p className="text-4xl mb-4 opacity-50">🎭</p>
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-white/05 flex items-center justify-center">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/20">
+                  <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+              </div>
               <p className="text-white/50 text-sm">No events found{category !== 'All' ? ` in ${category}` : ''}.</p>
               <p className="text-white/30 text-xs mt-1">
                 {allEvents.length === 0 ? 'Create your first event from the Dashboard.' : 'Try a different search or category.'}

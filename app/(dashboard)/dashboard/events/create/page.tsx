@@ -11,6 +11,7 @@ import { toast } from 'sonner'
 import { sigDescription } from '@/components/use-transaction-toast'
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
+import { ImageUpload } from '@/components/ui/ImageUpload'
 
 const CATEGORIES = ['Music', 'Sports', 'Conference', 'Theatre', 'Art', 'Gaming', 'Food', 'Other']
 const TIER_PRESETS = [
@@ -321,8 +322,7 @@ export default function CreateEventPage() {
                   </select>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs text-white/60 uppercase tracking-wider">Image URL</label>
-                  <input type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://..." className="input-field w-full" />
+                  <ImageUpload value={imageUrl} onChange={setImageUrl} label="Event Image" />
                 </div>
               </div>
             </div>

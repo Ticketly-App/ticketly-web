@@ -3,6 +3,7 @@
 import { Toaster } from './ui/sonner'
 import React from 'react'
 import { WalletConnectModal } from '@/components/layout/WalletConnectModal'
+import { ProfileCompleteModal } from '@/components/layout/ProfileCompleteModal'
 
 export function AppLayout({
   children,
@@ -14,6 +15,7 @@ export function AppLayout({
     <>
       {children}
       <WalletConnectModal />
+      <ProfileCompleteModal />
       <Toaster />
     </>
   )

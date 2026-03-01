@@ -91,7 +91,8 @@ export function EventDetail({ eventKey }: { eventKey: string }) {
       const eventId = BigInt(event.id)
       const eventPubkey = new PublicKey(event.publicKey)
       const ticketNumber = BigInt(Number(event.totalMinted))
-      const metadataUri = `https://ticketly.dev/metadata/ticket/${event.publicKey}/${ticketNumber.toString()}`
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://ticketly.tech'
+      const metadataUri = `${appUrl}/api/metadata/ticket/${event.publicKey}/${ticketNumber.toString()}`
 
       const ix = mintTicketInstruction(
         eventAuthority,

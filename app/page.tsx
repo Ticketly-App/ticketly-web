@@ -1,6 +1,21 @@
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { LiveStats } from "@/components/landing/LiveStats";
+import {
+  ArrowRight,
+  PlusCircle,
+  CalendarPlus,
+  Ticket,
+  ShieldCheck,
+  Zap,
+  Award,
+  DollarSign,
+  BarChart3,
+  Lock,
+  Sparkles,
+  Globe,
+} from "lucide-react";
 
 export default function LandingPage() {
   return (
@@ -14,6 +29,8 @@ export default function LandingPage() {
           <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-600/10 rounded-full blur-[120px] animate-pulse-slow" />
           <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/8 rounded-full blur-[100px] animate-pulse-slow" style={{animationDelay: "2s"}} />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-brand-900/20 to-transparent rounded-full" />
+
+          {/* Floating orbs - removed */}
 
           {/* Grid lines */}
           <div className="absolute inset-0" style={{
@@ -45,36 +62,18 @@ export default function LandingPage() {
 
           {/* CTA Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-4 animate-slide-up" style={{animationDelay: "0.3s"}}>
-            <Link href="/events" className="btn-primary text-lg px-8 py-4">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/>
-              </svg>
+            <Link href="/events" className="btn-primary text-lg px-8 py-4 group">
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
               Explore Events
             </Link>
-            <Link href="/dashboard/events/create" className="btn-secondary text-lg px-8 py-4">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/>
-              </svg>
+            <Link href="/dashboard/events/create" className="btn-secondary text-lg px-8 py-4 group">
+              <PlusCircle className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
               Host an Event
             </Link>
           </div>
 
-          {/* Stats ticker */}
-          <div className="mt-20 glass rounded-2xl p-6 max-w-4xl mx-auto animate-fade-in" style={{animationDelay: "0.5s"}}>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {[
-                { value: "0% Fraud", label: "Verified on-chain" },
-                { value: "<1s", label: "Check-in speed" },
-                { value: "0.00025", label: "SOL per tx" },
-                { value: "\u221E", label: "Programmable rules" },
-              ].map((stat, i) => (
-                <div key={i} className="text-center">
-                  <div className="text-2xl md:text-3xl font-display text-brand-400 mb-1">{stat.value}</div>
-                  <div className="text-xs text-white/40 uppercase tracking-widest font-mono">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          {/* Live Stats */}
+          <LiveStats />
         </div>
       </section>
 
@@ -101,31 +100,32 @@ export default function LandingPage() {
                 title: "Create Your Event",
                 description: "Define ticket tiers, set prices, configure anti-scalping rules, and deploy your event smart contract in minutes.",
                 color: "from-brand-600/20 to-brand-900/0",
-                iconPath: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z",
+                icon: CalendarPlus,
+                iconColor: "text-brand-400",
               },
               {
                 step: "02",
                 title: "Tickets Mint as NFTs",
                 description: "Attendees buy or claim tickets directly to their Solana wallet. Each ticket is a verifiable on-chain asset.",
                 color: "from-cyan-600/20 to-cyan-900/0",
-                iconPath: "M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z",
+                icon: Ticket,
+                iconColor: "text-neon-cyan",
               },
               {
                 step: "03",
                 title: "Instant Verification",
                 description: "At the gate, scan QR or verify wallet ownership. Ticket is marked used on-chain. POAP badge minted automatically.",
                 color: "from-neon-green/20 to-transparent",
-                iconPath: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+                icon: ShieldCheck,
+                iconColor: "text-neon-green",
               },
             ].map((step, i) => (
               <div key={i} className="ticket-card p-8 group">
                 <div className={`absolute inset-0 rounded-2xl bg-gradient-to-b ${step.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                 <div className="relative">
                   <div className="flex items-start justify-between mb-6">
-                    <div className="w-14 h-14 rounded-2xl glass-strong flex items-center justify-center">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-400">
-                        <path d={step.iconPath} />
-                      </svg>
+                    <div className="w-14 h-14 rounded-2xl glass-strong flex items-center justify-center shadow-lg">
+                      <step.icon className={`w-7 h-7 ${step.iconColor}`} strokeWidth={1.5} />
                     </div>
                     <span className="font-mono text-5xl font-bold text-white/05">{step.step}</span>
                   </div>
@@ -155,50 +155,54 @@ export default function LandingPage() {
                 description: "On-chain ownership verification means zero fake tickets. Every ticket is cryptographically signed.",
                 badge: "Security",
                 badgeColor: "badge-active",
-                iconPath: "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+                icon: ShieldCheck,
+                iconColor: "text-neon-green",
               },
               {
                 title: "Anti-Scalping Rules",
                 description: "Set max tickets per wallet, transfer restrictions, and resale price caps directly in your smart contract.",
                 badge: "Control",
                 badgeColor: "badge-vip",
-                iconPath: "M18.36 6.64A9 9 0 0 1 20.77 15M5.64 6.64A9 9 0 0 0 3.23 15M12 2v4M2 12h4M18 12h4M12 18v4M6 18l2-2M16 18l2 2",
+                icon: Lock,
+                iconColor: "text-amber-400",
               },
               {
                 title: "Instant Check-In",
                 description: "QR scan or wallet verification — check in thousands of attendees in seconds on Solana's lightning-fast network.",
                 badge: "Speed",
                 badgeColor: "badge-free",
-                iconPath: "M13 2L3 14h9l-1 8 10-12h-9l1-8z",
+                icon: Zap,
+                iconColor: "text-neon-cyan",
               },
               {
                 title: "POAP Attendance Badges",
                 description: "Attendees receive on-chain proof of attendance NFTs. Build loyalty programs and memories forever.",
                 badge: "Engagement",
                 badgeColor: "badge-vip",
-                iconPath: "M6 9H4.5a2.5 2.5 0 0 1 0-5C6 4 8 5.5 8 5.5S10 4 11.5 4a2.5 2.5 0 0 1 0 5H12M12 9v12M8 13h8M7 17h10",
+                icon: Award,
+                iconColor: "text-amber-400",
               },
               {
                 title: "Programmable Royalties",
                 description: "Earn royalties on every secondary sale. Configure resale rules and earn passively from your events.",
                 badge: "Revenue",
                 badgeColor: "badge-active",
-                iconPath: "M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+                icon: DollarSign,
+                iconColor: "text-neon-green",
               },
               {
                 title: "Real-Time Analytics",
                 description: "Track sales, revenue, check-ins, and buyer demographics in real-time. All data backed by on-chain truth.",
                 badge: "Insights",
                 badgeColor: "badge-free",
-                iconPath: "M18 20V10M12 20V4M6 20v-6",
+                icon: BarChart3,
+                iconColor: "text-neon-cyan",
               },
             ].map((feature, i) => (
               <div key={i} className="ticket-card p-6 group">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 flex items-center justify-center glass rounded-xl flex-shrink-0">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-brand-400">
-                      <path d={feature.iconPath} />
-                    </svg>
+                  <div className="w-12 h-12 flex items-center justify-center glass rounded-xl flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <feature.icon className={`w-5 h-5 ${feature.iconColor}`} strokeWidth={1.5} />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 mb-2">
@@ -210,6 +214,32 @@ export default function LandingPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Trusted by section */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <Globe className="w-5 h-5 text-white/30" />
+            <p className="text-white/30 text-sm font-mono uppercase tracking-widest">Powered by Solana</p>
+          </div>
+          <div className="flex items-center justify-center gap-8 md:gap-16 opacity-40">
+            <div className="text-center">
+              <p className="font-display text-2xl text-white">400ms</p>
+              <p className="text-xs text-white/40 mt-1">Block Time</p>
+            </div>
+            <div className="w-px h-10 bg-white/10" />
+            <div className="text-center">
+              <p className="font-display text-2xl text-white">$0.00025</p>
+              <p className="text-xs text-white/40 mt-1">Per Transaction</p>
+            </div>
+            <div className="w-px h-10 bg-white/10" />
+            <div className="text-center">
+              <p className="font-display text-2xl text-white">65,000+</p>
+              <p className="text-xs text-white/40 mt-1">TPS Capacity</p>
+            </div>
           </div>
         </div>
       </section>
@@ -227,7 +257,7 @@ export default function LandingPage() {
                 Join organizers building the future of events. Deploy your first tokenized event in minutes.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/dashboard/events/create" className="btn-primary text-lg px-10 py-4">
+                <Link href="/dashboard/events/create" className="btn-primary text-lg px-10 py-4 group">
                   Create Your First Event
                 </Link>
                 <Link href="/events" className="btn-secondary text-lg px-10 py-4">

@@ -9,6 +9,7 @@ import { findOrganizerAddress } from '@/lib/ticketly/pdas'
 import { TicketlyCoder } from '@/lib/ticketly/ticketly-program'
 import { toast } from 'sonner'
 import { sigDescription } from '@/components/use-transaction-toast'
+import { ImageUpload } from '@/components/ui/ImageUpload'
 
 export default function DashboardProfilePage() {
   const { publicKey, sendTransaction, signTransaction, connected } = useWallet()
@@ -87,10 +88,7 @@ export default function DashboardProfilePage() {
               <label className="text-xs font-medium text-white/60 uppercase tracking-wider">Website</label>
               <input type="url" value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://your-website.com" className="input-field w-full" />
             </div>
-            <div className="space-y-2">
-              <label className="text-xs font-medium text-white/60 uppercase tracking-wider">Logo URL</label>
-              <input type="url" value={logoUri} onChange={(e) => setLogoUri(e.target.value)} placeholder="https://example.com/logo.png" className="input-field w-full" />
-            </div>
+            <ImageUpload value={logoUri} onChange={setLogoUri} label="Profile Logo" />
           </div>
           {publicKey && (
             <div className="glass rounded-xl p-3 text-xs text-white/40">

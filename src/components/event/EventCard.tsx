@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { lamportsToSol } from "@/lib/ticketly/ticketly-query";
+import { GeneratedBanner } from "@/components/ui/GeneratedBanner";
+import { MapPin, Clock } from "lucide-react";
 
 interface EventCardProps {
   event: any;
@@ -16,18 +18,18 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
   const totalSold = event.tiers?.reduce((sum: number, t: any) => sum + t.sold, 0) || 0;
   const soldPercent = totalSupply > 0 ? (totalSold / totalSupply) * 100 : 0;
   const isSoldOut = soldPercent >= 100;
+  const category = event.categories?.[0] || '';
+  const hasRealImage = event.imageUri && !event.imageUri.includes('ticketly.dev/metadata');
 
   if (view === "list") {
     return (
       <Link href={`/events/${event.pubkey || event._id}`}>
         <div className="ticket-card p-5 flex items-center gap-6 group">
           <div className="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0 bg-dark-800">
-            {event.imageUri ? (
+            {hasRealImage ? (
               <img src={event.imageUri} alt={event.name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-brand-800 to-brand-950 flex items-center justify-center text-3xl">
-                🎭
-              </div>
+              <GeneratedBanner name={event.name} category={category} size="sm" showInitial={true} />
             )}
           </div>
           <div className="flex-1 min-w-0">
@@ -35,9 +37,15 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
               {event.name}
             </h3>
             <div className="flex items-center gap-3 mt-1 text-white/40 text-sm">
-              <span>{format(startDate, "MMM d, yyyy")}</span>
+              <span className="inline-flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                {format(startDate, "MMM d, yyyy")}
+              </span>
               <span className="text-white/20">|</span>
-              <span>{event.venue}</span>
+              <span className="inline-flex items-center gap-1">
+                <MapPin className="w-3 h-3" />
+                {event.venue}
+              </span>
             </div>
           </div>
           <div className="text-right flex-shrink-0">
@@ -70,12 +78,10 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
       <div className="ticket-card group overflow-hidden hover:scale-[1.02] transition-all duration-300">
         {/* Image */}
         <div className="h-44 overflow-hidden relative">
-          {event.imageUri ? (
+          {hasRealImage ? (
             <img src={event.imageUri} alt={event.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-brand-800 via-brand-900 to-dark-900 flex items-center justify-center">
-              <span className="text-5xl opacity-50">🎭</span>
-            </div>
+            <GeneratedBanner name={event.name} category={category} size="md" />
           )}
           {/* Status badge */}
           <div className="absolute top-3 right-3">
@@ -92,10 +98,10 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
             </span>
           </div>
           {/* Category */}
-          {event.categories?.[0] && (
+          {category && (
             <div className="absolute top-3 left-3">
               <span className="badge text-[10px] bg-dark-900/80 text-white/70 border-white/10 backdrop-blur-sm">
-                {event.categories[0]}
+                {category}
               </span>
             </div>
           )}
@@ -110,9 +116,15 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
               {event.name}
             </h3>
             <div className="flex items-center gap-2 mt-1.5 text-xs text-white/40">
-              <span>{format(startDate, "MMM d, yyyy")}</span>
+              <span className="inline-flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                {format(startDate, "MMM d, yyyy")}
+              </span>
               <span className="text-white/20">·</span>
-              <span className="truncate">{event.venue}</span>
+              <span className="truncate inline-flex items-center gap-1">
+                <MapPin className="w-3 h-3" />
+                {event.venue}
+              </span>
             </div>
           </div>
 

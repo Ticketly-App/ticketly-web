@@ -10,13 +10,44 @@ const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', display
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
 
 export const metadata: Metadata = {
-  title: 'Ticketly',
-  description: 'On-chain event ticketing on Solana.',
+  metadataBase: new URL('https://ticketly.tech'),
+  title: {
+    default: 'Ticketly - OnChain Event Ticketing on Solana',
+    template: '%s | Ticketly',
+  },
+  description: 'Mint, verify, and trade event tickets as NFTs on Solana. Zero fraud, instant check-in, programmable royalties.',
+  manifest: '/site.webmanifest',
+  themeColor: '#030303',
+  icons: {
+    icon: [
+      { url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
+      { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon.ico',
+  },
+  openGraph: {
+    title: 'Ticketly — On-Chain Event Ticketing on Solana',
+    description: 'Tokenized tickets. Zero fraud. Instant check-in. Powered by Solana.',
+    siteName: 'Ticketly',
+    url: 'https://ticketly.tech',
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Ticketly - OnChain Event Ticketing',
+    description: 'Tokenized tickets. Zero fraud. Instant check-in. Powered by Solana.',
+    site: '@ticketly_app',
+  },
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${bebasNeue.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`dark ${bebasNeue.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
       <body className="antialiased bg-dark-950">
         <AppProviders>
           <AppLayout>{children}</AppLayout>

@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletButton } from '@/components/solana/solana-provider'
@@ -25,7 +26,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
         {/* Logo */}
         <div className="p-6 border-b border-white/08">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-sm font-display">T</div>
+            <Image src="/logo.png" alt="Ticketly" width={32} height={32} className="w-8 h-8 rounded-lg" />
             <span className="font-display text-lg text-white group-hover:text-brand-400 transition-colors">Ticketly</span>
           </Link>
         </div>
@@ -72,7 +73,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
             {/* Mobile menu */}
             <div className="lg:hidden flex items-center gap-3">
               <Link href="/" className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-xs font-display">T</div>
+                <Image src="/logo.png" alt="Ticketly" width={28} height={28} className="w-7 h-7 rounded-lg" />
               </Link>
             </div>
 
