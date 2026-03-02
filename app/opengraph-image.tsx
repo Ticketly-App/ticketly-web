@@ -1,37 +1,44 @@
 import { ImageResponse } from 'next/og'
-import { readFileSync } from 'fs'
-import { join } from 'path'
 
 export const runtime = 'nodejs'
 export const alt = 'Ticketly | On-Chain Event Ticketing on Solana'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
-function loadFont(name: string): Buffer {
-  return readFileSync(join(process.cwd(), 'app', 'fonts', name))
-}
+const bebasNeueFontPromise = fetch(
+  new URL('./fonts/BebasNeue-Regular.ttf', import.meta.url)
+).then((res) => res.arrayBuffer())
 
-function loadLogo(): string {
-  try {
-    const logoBuffer = readFileSync(join(process.cwd(), 'public', 'logo.png'))
-    return `data:image/png;base64,${logoBuffer.toString('base64')}`
-  } catch {
-    try {
-      const logoBuffer = readFileSync(
-        join(process.cwd(), 'public', 'logo.jpg')
-      )
-      return `data:image/jpeg;base64,${logoBuffer.toString('base64')}`
-    } catch {
-      return ''
-    }
-  }
-}
+const dmMonoFontPromise = fetch(
+  new URL('./fonts/DMMono-Regular.ttf', import.meta.url)
+).then((res) => res.arrayBuffer())
+
+const dmSansFontPromise = fetch(
+  new URL('./fonts/DMSans-Regular.ttf', import.meta.url)
+).then((res) => res.arrayBuffer())
+
+const logoPromise = fetch(
+  new URL('../public/logo.png', import.meta.url)
+)
+  .then(async (res) => {
+    if (!res.ok) throw new Error('not found')
+    const buf = Buffer.from(await res.arrayBuffer())
+    return `data:image/png;base64,${buf.toString('base64')}`
+  })
+  .catch(() =>
+    fetch(new URL('../public/logo.jpg', import.meta.url))
+      .then(async (res) => {
+        if (!res.ok) return ''
+        const buf = Buffer.from(await res.arrayBuffer())
+        return `data:image/jpeg;base64,${buf.toString('base64')}`
+      })
+      .catch(() => '')
+  )
 
 export default async function Image() {
-  const bebasNeueFont = loadFont('BebasNeue-Regular.ttf')
-  const dmMonoFont = loadFont('DMMono-Regular.ttf')
-  const dmSansFont = loadFont('DMSans-Regular.ttf')
-  const logoBase64 = loadLogo()
+  const [bebasNeueFont, dmMonoFont, dmSansFont, logoBase64] = await Promise.all(
+    [bebasNeueFontPromise, dmMonoFontPromise, dmSansFontPromise, logoPromise]
+  )
 
   return new ImageResponse(
     (
