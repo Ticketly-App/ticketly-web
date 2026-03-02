@@ -105,7 +105,6 @@ ticketly-web/
 
 **Program ID:** `GawjtcQFx5cnK24VrDiUhGdg4DZbVGLzsSsd4vbxznfs`
 
-The on-chain program (in `../ticketly/`) exposes the following instructions:
 
 | Instruction | Description |
 |-------------|-------------|
