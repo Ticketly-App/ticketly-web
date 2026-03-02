@@ -37,21 +37,12 @@ export const metadata: Metadata = {
     url: 'https://ticketly.tech',
     type: 'website',
     locale: 'en_US',
-    images: [
-      {
-        url: '/og-banner.png',
-        width: 1200,
-        height: 630,
-        alt: 'Ticketly | On-Chain Event Ticketing on Solana',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Ticketly - OnChain Event Ticketing',
+    title: 'Ticketly | On-Chain Event Ticketing on Solana',
     description: 'Tokenized tickets. Zero fraud. Instant check-in. Powered by Solana.',
     site: '@ticketly_app',
-    images: ['/og-banner.png'],
   },
 }
 
