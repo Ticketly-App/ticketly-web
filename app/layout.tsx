@@ -10,7 +10,7 @@ const bebasNeue = Bebas_Neue({ weight: '400', subsets: ['latin'], variable: '--f
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', display: 'swap' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' })
 
-const baseUrl =
+const baseUrl = 
   process.env.NEXT_PUBLIC_APP_URL ||
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
@@ -45,15 +45,6 @@ export const metadata: Metadata = {
     url: baseUrl,
     type: 'website',
     locale: 'en_US',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Ticketly – On-Chain Event Ticketing on Solana',
-        type: 'image/png',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -61,14 +52,6 @@ export const metadata: Metadata = {
     description: 'Tokenized tickets. Zero fraud. Instant check-in. Powered by Solana.',
     site: '@ticketly_app',
     creator: '@ticketly_app',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Ticketly – On-Chain Event Ticketing on Solana',
-      },
-    ],
   },
 }
 

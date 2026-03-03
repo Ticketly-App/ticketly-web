@@ -92,21 +92,10 @@ export function GeneratedBanner({
         }}
       />
 
-      {/* Radial glow */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `radial-gradient(ellipse at ${30 + (hash % 40)}% ${30 + (hash % 40)}%, ${palette[0]}40 0%, transparent 70%)`,
-        }}
-      />
-
       {/* Initial letter */}
       {showInitial && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            className={`font-display ${fontSize} text-white/10 select-none`}
-            style={{ textShadow: `0 0 60px ${palette[0]}30` }}
-          >
+          <span className={`font-display ${fontSize} text-white/10 select-none`}>
             {initial}
           </span>
         </div>

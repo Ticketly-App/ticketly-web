@@ -8,6 +8,7 @@ import { addWhitelistEntryInstruction, removeWhitelistEntryInstruction } from '@
 import { Connection, PublicKey, Transaction } from '@solana/web3.js'
 import { toast } from 'sonner'
 import { sigDescription } from '@/components/use-transaction-toast'
+import { parseTransactionError } from '@/lib/parse-transaction-error'
 
 export default function EventWhitelistPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -50,7 +51,7 @@ export default function EventWhitelistPage({ params }: { params: Promise<{ id: s
       setWalletAddress('')
     } catch (err) {
       console.error(err)
-      toast.error('Failed to add.', { description: err instanceof Error ? err.message : String(err) })
+      toast.error('Failed to add.', { description: parseTransactionError(err) })
     } finally { setIsSubmitting(false) }
   }
 

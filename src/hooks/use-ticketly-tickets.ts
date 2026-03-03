@@ -20,6 +20,7 @@ export interface TicketlyTicket {
   metadataUri: string
   isCheckedIn: boolean
   isListed: boolean
+  poapMinted: boolean
   listedPrice: bigint | null
   listedPriceSol: number | null
   mintedAt: bigint
@@ -49,6 +50,7 @@ function mapTicketAccountToTicketlyTicket(data: TicketlyTicketAccount): Ticketly
     metadataUri: account.metadataUri,
     isCheckedIn: account.isCheckedIn,
     isListed: account.isListed,
+    poapMinted: account.poapMinted ?? false,
     listedPrice: account.listedPrice,
     listedPriceSol: account.listedPrice ? lamportsToSol(account.listedPrice) : null,
     mintedAt: account.mintedAt,

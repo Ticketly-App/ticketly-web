@@ -5,13 +5,35 @@ import { format } from "date-fns";
 import { lamportsToSol } from "@/lib/ticketly/ticketly-query";
 import { GeneratedBanner } from "@/components/ui/GeneratedBanner";
 import { MapPin, Clock } from "lucide-react";
+import type { OrganizerInfo } from "@/hooks/use-organizer-profiles";
+import { GradientAvatar } from "@/components/ui/gradient-avatar";
+import { useState } from "react";
+
+// OrganizerAvatar: shows image, falls back to GradientAvatar on error
+function OrganizerAvatar({ logoUri, authority, name, size = 16 }: { logoUri: string, authority: string, name: string, size?: number }) {
+  const [error, setError] = useState(false)
+  if (error || !logoUri) {
+    return <GradientAvatar seed={authority} name={name} size={size} />
+  }
+  return (
+    <img
+      src={logoUri}
+      alt={name}
+      className={`rounded-full object-cover ring-1 ring-white/10`}
+      style={{ width: size, height: size }}
+      onError={() => setError(true)}
+    />
+  )
+}
 
 interface EventCardProps {
   event: any;
   view?: "grid" | "list";
+  orgProfile?: OrganizerInfo;
+  onOrgClick?: () => void;
 }
 
-export function EventCard({ event, view = "grid" }: EventCardProps) {
+export function EventCard({ event, view = "grid", orgProfile, onOrgClick }: EventCardProps) {
   const startDate = new Date(event.startTime);
   const minPrice = event.tiers?.reduce((min: number, t: any) => Math.min(min, t.price), Infinity) || 0;
   const totalSupply = event.tiers?.reduce((sum: number, t: any) => sum + t.supply, 0) || 0;
@@ -46,6 +68,25 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
                 <MapPin className="w-3 h-3" />
                 {event.venue}
               </span>
+              {orgProfile && (
+                <>
+                  <span className="text-white/20">|</span>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); onOrgClick?.() }}
+                    className="inline-flex items-center gap-1.5 hover:text-white/70 transition-colors cursor-pointer"
+                  >
+                    {orgProfile.logoUri ? (
+                      <OrganizerAvatar logoUri={orgProfile.logoUri} authority={orgProfile.authority || orgProfile.name} name={orgProfile.name} size={16} />
+                    ) : (
+                      <GradientAvatar seed={orgProfile.authority || orgProfile.name} name={orgProfile.name} size={16} />
+                    )}
+                    <span className="text-white/50 truncate max-w-[100px]">
+                      {orgProfile.username ? `@${orgProfile.username}` : orgProfile.name}
+                    </span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
           <div className="text-right flex-shrink-0">
@@ -126,13 +167,29 @@ export function EventCard({ event, view = "grid" }: EventCardProps) {
                 {event.venue}
               </span>
             </div>
+            {orgProfile && (
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onOrgClick?.() }}
+                className="flex items-center gap-1.5 mt-1.5 text-xs text-white/40 hover:text-white/70 transition-colors cursor-pointer"
+              >
+                {orgProfile.logoUri ? (
+                  <OrganizerAvatar logoUri={orgProfile.logoUri} authority={orgProfile.authority || orgProfile.name} name={orgProfile.name} size={16} />
+                ) : (
+                  <GradientAvatar seed={orgProfile.authority || orgProfile.name} name={orgProfile.name} size={16} />
+                )}
+                <span className="text-white/50 truncate">
+                  {orgProfile.username ? `@${orgProfile.username}` : orgProfile.name}
+                </span>
+              </button>
+            )}
           </div>
 
           {/* Progress bar */}
           <div>
             <div className="h-1.5 rounded-full bg-white/05 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-brand-500 to-neon-cyan transition-all"
+                className="h-full rounded-full bg-brand-500 transition-all"
                 style={{ width: `${Math.min(soldPercent, 100)}%` }}
               />
             </div>

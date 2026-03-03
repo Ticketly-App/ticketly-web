@@ -197,8 +197,24 @@ const AnalyticsEventSchema = new Schema<IAnalyticsEvent>({
   timestamp: { type: Date, default: Date.now, index: true },
 });
 
+// Wallet ↔ Twitter 1:1 Binding
+export interface IWalletBinding extends Document {
+  wallet: string;
+  twitterId: string;
+  twitterHandle: string;
+  boundAt: Date;
+}
+
+const WalletBindingSchema = new Schema<IWalletBinding>({
+  wallet: { type: String, required: true, unique: true, index: true },
+  twitterId: { type: String, required: true, unique: true, index: true },
+  twitterHandle: { type: String, required: true },
+  boundAt: { type: Date, default: Date.now },
+}, { timestamps: true });
+
 export const EventModel = mongoose.models.Event || mongoose.model<IEvent>("Event", EventSchema);
 export const TicketModel = mongoose.models.Ticket || mongoose.model<ITicket>("Ticket", TicketSchema);
 export const OrganizerModel = mongoose.models.Organizer || mongoose.model<IOrganizer>("Organizer", OrganizerSchema);
 export const ListingModel = mongoose.models.Listing || mongoose.model<IListing>("Listing", ListingSchema);
 export const AnalyticsEventModel = mongoose.models.AnalyticsEvent || mongoose.model<IAnalyticsEvent>("AnalyticsEvent", AnalyticsEventSchema);
+export const WalletBindingModel = mongoose.models.WalletBinding || mongoose.model<IWalletBinding>("WalletBinding", WalletBindingSchema);

@@ -20,7 +20,6 @@ export function LiveStats() {
       label: 'Events Created',
       icon: Calendar,
       color: 'text-brand-400',
-      glow: 'shadow-brand-500/20',
     },
     {
       ref: tickets.ref,
@@ -28,8 +27,7 @@ export function LiveStats() {
       suffix: '+',
       label: 'Tickets Sold',
       icon: Ticket,
-      color: 'text-neon-cyan',
-      glow: 'shadow-cyan-500/20',
+      color: 'text-cyan-400',
     },
     {
       ref: revenue.ref,
@@ -37,8 +35,7 @@ export function LiveStats() {
       suffix: ' SOL',
       label: 'Revenue Generated',
       icon: TrendingUp,
-      color: 'text-neon-green',
-      glow: 'shadow-green-500/20',
+      color: 'text-green-400',
     },
     {
       ref: checkins.ref,
@@ -47,7 +44,6 @@ export function LiveStats() {
       label: 'Check-ins',
       icon: UserCheck,
       color: 'text-amber-400',
-      glow: 'shadow-amber-500/20',
     },
   ]
 
@@ -58,7 +54,7 @@ export function LiveStats() {
           const Icon = stat.icon
           return (
             <div key={stat.label} ref={stat.ref} className="text-center group">
-              <div className={`w-12 h-12 mx-auto mb-3 rounded-xl glass-strong flex items-center justify-center shadow-lg ${stat.glow} group-hover:scale-110 transition-transform duration-300`}>
+              <div className={`w-12 h-12 mx-auto mb-3 rounded-xl glass-strong flex items-center justify-center group-hover:scale-105 transition-transform duration-300`}>
                 <Icon className={`w-5 h-5 ${stat.color}`} strokeWidth={1.5} />
               </div>
               <div className={`text-3xl md:text-4xl font-display ${stat.color} mb-1 tabular-nums`}>

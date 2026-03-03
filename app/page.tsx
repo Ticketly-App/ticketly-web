@@ -26,23 +26,20 @@ export default function LandingPage() {
       <section className="relative min-h-screen flex items-center justify-center pt-20">
         {/* Background effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-brand-600/10 rounded-full blur-[120px] animate-pulse-slow" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-cyan-500/8 rounded-full blur-[100px] animate-pulse-slow" style={{animationDelay: "2s"}} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-brand-900/20 to-transparent rounded-full" />
-
-          {/* Floating orbs - removed */}
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-brand-600/5 rounded-full blur-[150px]" />
+          <div className="absolute bottom-1/3 right-1/3 w-[300px] h-[300px] bg-brand-800/5 rounded-full blur-[120px]" />
 
           {/* Grid lines */}
           <div className="absolute inset-0" style={{
-            backgroundImage: "linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px)",
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
             backgroundSize: "64px 64px"
           }} />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
           {/* Announcement badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass neon-border mb-8 animate-slide-up">
-            <div className="w-2 h-2 rounded-full bg-neon-green animate-pulse" />
+          <div className="inline-flex items-center mt-6 gap-2 px-4 py-2 rounded-full glass border border-white/10 mb-6 animate-slide-up">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
             <span className="text-xs font-mono text-white/60 tracking-widest uppercase">Live on Solana Devnet</span>
           </div>
 
@@ -57,7 +54,7 @@ export default function LandingPage() {
 
           <p className="text-xl md:text-2xl text-white/50 max-w-3xl mx-auto mb-12 font-body leading-relaxed animate-slide-up" style={{animationDelay: "0.2s"}}>
             Tokenized tickets. Zero fraud. Instant check-in.
-            On-chain proof of attendance — all powered by Solana.
+            On-chain proof of attendance — powered by Solana.
           </p>
 
           {/* CTA Buttons */}
@@ -92,14 +89,14 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
             {/* Connecting line */}
-            <div className="hidden md:block absolute top-16 left-1/4 right-1/4 h-px bg-gradient-to-r from-brand-600/50 via-brand-400/30 to-cyan-500/50" />
+            <div className="hidden md:block absolute top-16 left-1/4 right-1/4 h-px bg-gradient-to-r from-white/10 via-white/05 to-transparent" />
 
             {[
               {
                 step: "01",
                 title: "Create Your Event",
                 description: "Define ticket tiers, set prices, configure anti-scalping rules, and deploy your event smart contract in minutes.",
-                color: "from-brand-600/20 to-brand-900/0",
+                color: "from-brand-600/10 to-transparent",
                 icon: CalendarPlus,
                 iconColor: "text-brand-400",
               },
@@ -107,17 +104,17 @@ export default function LandingPage() {
                 step: "02",
                 title: "Tickets Mint as NFTs",
                 description: "Attendees buy or claim tickets directly to their Solana wallet. Each ticket is a verifiable on-chain asset.",
-                color: "from-cyan-600/20 to-cyan-900/0",
+                color: "from-cyan-600/10 to-transparent",
                 icon: Ticket,
-                iconColor: "text-neon-cyan",
+                iconColor: "text-cyan-400",
               },
               {
                 step: "03",
                 title: "Instant Verification",
                 description: "At the gate, scan QR or verify wallet ownership. Ticket is marked used on-chain. POAP badge minted automatically.",
-                color: "from-neon-green/20 to-transparent",
+                color: "from-green-600/10 to-transparent",
                 icon: ShieldCheck,
-                iconColor: "text-neon-green",
+                iconColor: "text-green-400",
               },
             ].map((step, i) => (
               <div key={i} className="ticket-card p-8 group">
@@ -156,7 +153,7 @@ export default function LandingPage() {
                 badge: "Security",
                 badgeColor: "badge-active",
                 icon: ShieldCheck,
-                iconColor: "text-neon-green",
+                iconColor: "text-green-400",
               },
               {
                 title: "Anti-Scalping Rules",
@@ -172,7 +169,7 @@ export default function LandingPage() {
                 badge: "Speed",
                 badgeColor: "badge-free",
                 icon: Zap,
-                iconColor: "text-neon-cyan",
+                iconColor: "text-cyan-400",
               },
               {
                 title: "POAP Attendance Badges",
@@ -188,7 +185,7 @@ export default function LandingPage() {
                 badge: "Revenue",
                 badgeColor: "badge-active",
                 icon: DollarSign,
-                iconColor: "text-neon-green",
+                iconColor: "text-green-400",
               },
               {
                 title: "Real-Time Analytics",
@@ -196,7 +193,7 @@ export default function LandingPage() {
                 badge: "Insights",
                 badgeColor: "badge-free",
                 icon: BarChart3,
-                iconColor: "text-neon-cyan",
+                iconColor: "text-cyan-400",
               },
             ].map((feature, i) => (
               <div key={i} className="ticket-card p-6 group">
@@ -247,8 +244,8 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="py-32 px-6">
         <div className="max-w-4xl mx-auto">
-          <div className="relative glass-strong rounded-3xl p-12 md:p-20 text-center overflow-hidden neon-border">
-            <div className="absolute inset-0 bg-gradient-radial from-brand-600/20 to-transparent pointer-events-none" />
+          <div className="relative glass-strong rounded-3xl p-12 md:p-20 text-center overflow-hidden border border-white/10">
+            <div className="absolute inset-0 bg-gradient-radial from-brand-900/10 to-transparent pointer-events-none" />
             <div className="relative">
               <h2 className="heading-display text-5xl md:text-6xl text-white mb-6">
                 Ready to go <span className="gradient-text">on-chain?</span>

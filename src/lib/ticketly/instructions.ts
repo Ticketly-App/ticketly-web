@@ -18,6 +18,7 @@ import {
   findPoapRecordAddress,
   findPoapMintAddress,
   findPlatformConfigAddress,
+  findRefundRecordAddress,
 } from './pdas'
 import type { CreateEventParams, InitOrganizerParams, MintTicketParams, UpdateEventParams } from './types'
 
@@ -647,5 +648,34 @@ export function mintPoapInstruction(
     ],
     programId: PROGRAM_ID,
     data: encodeInstruction(INSTRUCTION_DISCRIMINATORS.MintPoap, []),
+  })
+}
+
+// ─── Refund Ticket ───────────────────────────────────────────────────────────
+
+/**
+ * Refund a ticket holder after event cancellation.
+ * The organizer (authority) pays the primary ticket price to the current ticket owner.
+ */
+export function refundTicketInstruction(
+  authority: PublicKey,
+  eventId: bigint,
+  eventPda: PublicKey,
+  ticketPda: PublicKey,
+  ticketOwner: PublicKey,
+): TransactionInstruction {
+  const [refundRecord] = findRefundRecordAddress(ticketPda)
+
+  return new TransactionInstruction({
+    keys: [
+      { pubkey: eventPda, isSigner: false, isWritable: false },
+      { pubkey: ticketPda, isSigner: false, isWritable: false },
+      { pubkey: refundRecord, isSigner: false, isWritable: true },
+      { pubkey: ticketOwner, isSigner: false, isWritable: true },
+      { pubkey: authority, isSigner: true, isWritable: true },
+      { pubkey: SystemProgram.programId, isSigner: false, isWritable: false },
+    ],
+    programId: PROGRAM_ID,
+    data: encodeInstruction(INSTRUCTION_DISCRIMINATORS.RefundTicket, []),
   })
 }

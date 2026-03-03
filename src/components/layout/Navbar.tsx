@@ -7,7 +7,10 @@ import { useWallet } from '@solana/wallet-adapter-react'
 import { WalletButton } from '@/components/solana/solana-provider'
 import { useCluster } from '@/components/cluster/cluster-data-access'
 import { useState } from 'react'
-import { Menu, X, Ticket, LayoutDashboard, Store, Search } from 'lucide-react'
+import { Menu, X, Ticket, LayoutDashboard, Store, Search, Shield, Calendar, Tickets } from 'lucide-react'
+import { useXProfile } from '@/components/auth/XAuthGate'
+import { useIsAdmin } from '@/hooks/use-admin'
+import { GradientAvatar } from '@/components/ui/gradient-avatar'
 
 export function Navbar() {
   const pathname = usePathname()
@@ -15,14 +18,16 @@ export function Navbar() {
   const { cluster } = useCluster()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [logoError, setLogoError] = useState(false)
+  const { isAuthenticated, handle, image } = useXProfile()
+  const isAdmin = useIsAdmin()
 
   const navLinks = [
-    { href: '/events', label: 'Events', icon: Search },
+    { href: '/events', label: 'Events', icon: Calendar },
     { href: '/marketplace', label: 'Marketplace', icon: Store },
     ...(connected
       ? [
           { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-          { href: '/tickets', label: 'My Tickets', icon: Ticket },
+          { href: '/tickets', label: 'My Tickets', icon: Tickets },
         ]
       : []),
   ]
@@ -43,7 +48,7 @@ export function Navbar() {
                 onError={() => setLogoError(true)}
               />
             ) : (
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-sm font-display text-white shadow-lg shadow-brand-600/20">
+              <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-sm font-display text-white">
                 T
               </div>
             )}
@@ -73,10 +78,41 @@ export function Navbar() {
             })}
           </div>
 
-          {/* Right side: cluster badge + wallet + mobile menu */}
+          {/* Right side: X profile + cluster badge + admin + wallet + mobile menu */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* X profile */}
+            {isAuthenticated && (
+              <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.06]">
+                {image ? (
+                  <Image
+                    src={image}
+                    alt={handle || 'X profile'}
+                    width={20}
+                    height={20}
+                    className="w-5 h-5 rounded-full object-cover"
+                  />
+                ) : (
+                  <GradientAvatar seed={handle || 'user'} name={handle || 'U'} size={20} />
+                )}
+                {handle && (
+                  <span className="text-xs text-white/60 font-medium">@{handle}</span>
+                )}
+              </div>
+            )}
+
             {/* Cluster badge */}
             <span className="badge badge-active text-[9px] hidden sm:inline-flex">{cluster.name.toUpperCase()}</span>
+
+            {/* Admin link */}
+            {isAdmin && (
+              <Link
+                href="/dashboard/admin"
+                className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 hover:bg-amber-500/20 transition-all text-xs font-medium"
+              >
+                <Shield className="w-3.5 h-3.5" />
+                Admin
+              </Link>
+            )}
 
             {/* Wallet button (styled for dark theme) */}
             <div className="[&_button]:!bg-brand-600/20 [&_button]:!border [&_button]:!border-brand-600/30 [&_button]:!text-brand-400 [&_button]:!rounded-xl [&_button]:!text-xs [&_button]:!font-medium [&_button]:!h-9 [&_button]:!px-4 [&_button]:hover:!bg-brand-600/30 [&_button]:!transition-all [&_.wallet-adapter-button-start-icon]:!mr-2">
@@ -110,12 +146,43 @@ export function Navbar() {
                         : 'text-white/50 hover:text-white hover:bg-white/05'
                     }`}
                   >
-                    <Icon className="w-4 h-4" strokeWidth={1.5} />
+             42       <Icon className="w-4 h-4" strokeWidth={1.5} />
                     {link.label}
                   </Link>
                 )
               })}
             </div>
+            {/* X profile in mobile */}
+            {isAuthenticated && (
+              <div className="mt-3 pt-3 border-t border-white/08 flex items-center gap-2 px-2">
+                {image ? (
+                  <Image
+                    src={image}
+                    alt={handle || 'X profile'}
+                    width={24}
+                    height={24}
+                    className="w-6 h-6 rounded-full object-cover"
+                  />
+                ) : (
+                  <GradientAvatar seed={handle || 'user'} name={handle || 'U'} size={24} />
+                )}
+                {handle && (
+                  <span className="text-sm text-white/50 font-medium">@{handle}</span>
+                )}
+              </div>
+            )}
+            {isAdmin && (
+              <div className={`${isAuthenticated ? 'mt-2' : 'mt-3 pt-3 border-t border-white/08'} px-1`}>
+                <Link
+                  href="/dashboard/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium text-amber-400 hover:bg-amber-500/10 transition-all"
+                >
+                  <Shield className="w-4 h-4" />
+                  Admin Dashboard
+                </Link>
+              </div>
+            )}
             <div className="mt-3 pt-3 border-t border-white/08 flex items-center justify-between">
               <span className="text-xs text-white/30 font-mono">{cluster.name}</span>
               <span className="badge badge-active text-[9px]">DEVNET</span>

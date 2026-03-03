@@ -226,48 +226,52 @@ pre,
   }
 
   .neon-border {
-    border: 1px solid rgba(255, 80, 0, 0.4);
-    box-shadow: 0 0 20px rgba(255, 80, 0, 0.1), inset 0 0 20px rgba(255, 80, 0, 0.05);
+    border: 1px solid rgba(255, 80, 0, 0.25);
   }
 
   .neon-border-cyan {
-    border: 1px solid rgba(0, 245, 255, 0.4);
-    box-shadow: 0 0 20px rgba(0, 245, 255, 0.1), inset 0 0 20px rgba(0, 245, 255, 0.05);
+    border: 1px solid rgba(0, 245, 255, 0.25);
   }
 
   .ticket-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, rgba(255,80,0,0.02) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    transition: all 0.3s ease;
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 
   .ticket-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,80,0,0.5), transparent);
+    inset: 0;
+    border-radius: 20px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%, rgba(255,80,0,0.08) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.4s ease;
+  }
+
+  .ticket-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,80,0,0.05), inset 0 1px 0 rgba(255,255,255,0.06);
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,80,0,0.04) 100%);
   }
 
   .ticket-card:hover::before {
     opacity: 1;
   }
 
-  .ticket-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 80, 0, 0.3);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 80, 0, 0.1);
-  }
-
   .btn-primary {
-    background: linear-gradient(135deg, #FF5000, #E04500);
+    background: #FF5000;
     color: white;
     padding: 12px 28px;
     border-radius: 10px;
@@ -283,9 +287,9 @@ pre,
   }
 
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 80, 0, 0.4);
-    background: linear-gradient(135deg, #FF7A2F, #FF5000);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 80, 0, 0.2);
+    background: #FF6A1A;
   }
 
   .btn-primary:active {
@@ -331,7 +335,6 @@ pre,
 
   .btn-danger:hover {
     background: rgba(255, 0, 110, 0.25);
-    box-shadow: 0 4px 15px rgba(255, 0, 110, 0.3);
   }
 
   .input-field {
@@ -348,8 +351,8 @@ pre,
   }
 
   .input-field:focus {
-    border-color: rgba(255, 80, 0, 0.5);
-    box-shadow: 0 0 0 3px rgba(255, 80, 0, 0.1);
+    border-color: rgba(255, 80, 0, 0.4);
+    box-shadow: 0 0 0 2px rgba(255, 80, 0, 0.08);
   }
 
   .input-field::placeholder {
@@ -378,7 +381,7 @@ pre,
   }
 
   .stat-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 16px;
     padding: 24px;
@@ -393,8 +396,8 @@ pre,
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #FF5000, #00f5ff);
-    opacity: 0.6;
+    background: #FF5000;
+    opacity: 0.4;
   }
 
   .badge {
@@ -410,9 +413,9 @@ pre,
   }
 
   .badge-active {
-    background: rgba(57, 255, 20, 0.15);
-    color: #39ff14;
-    border: 1px solid rgba(57, 255, 20, 0.3);
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    border: 1px solid rgba(34, 197, 94, 0.25);
   }
 
   .badge-cancelled {
@@ -428,9 +431,9 @@ pre,
   }
 
   .badge-free {
-    background: rgba(0, 245, 255, 0.15);
-    color: #00f5ff;
-    border: 1px solid rgba(0, 245, 255, 0.3);
+    background: rgba(34, 211, 238, 0.12);
+    color: #67e8f9;
+    border: 1px solid rgba(34, 211, 238, 0.25);
   }
 
   .heading-display {
@@ -442,7 +445,7 @@ pre,
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, #fff 0%, rgba(255,80,0,0.9) 50%, #00f5ff 100%);
+    background: linear-gradient(135deg, #fff 0%, #FF5000 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -476,30 +479,29 @@ pre,
 
   .wallet-adapter-button:hover {
     background: rgba(255, 255, 255, 0.1) !important;
-    border-color: rgba(255, 80, 0, 0.4) !important;
-    box-shadow: 0 4px 20px rgba(255, 80, 0, 0.15), inset 0 0 0 1px rgba(255, 80, 0, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
     transform: translateY(-1px) !important;
   }
 
   .wallet-adapter-button-trigger {
-    background: linear-gradient(135deg, rgba(255, 80, 0, 0.8), rgba(224, 69, 0, 0.8)) !important;
+    background: rgba(255, 80, 0, 0.8) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255, 80, 0, 0.4) !important;
+    border: 1px solid rgba(255, 80, 0, 0.3) !important;
   }
 
   .wallet-adapter-button-trigger:hover {
-    background: linear-gradient(135deg, #FF5000, #E04500) !important;
-    box-shadow: 0 6px 25px rgba(255, 80, 0, 0.35) !important;
+    background: #FF5000 !important;
+    box-shadow: 0 4px 12px rgba(255, 80, 0, 0.2) !important;
   }
 
   .wallet-adapter-modal-wrapper {
-    background: rgba(10, 10, 10, 0.85) !important;
+    background: rgba(10, 10, 10, 0.9) !important;
     backdrop-filter: blur(24px) !important;
     -webkit-backdrop-filter: blur(24px) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     border-radius: 20px !important;
-    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5) !important;
   }
 
   .wallet-adapter-modal-title {
@@ -592,9 +594,9 @@ pre,
 }
 
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
   background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+  animation: shimmer 3s infinite;
 }
 
 .animate-pulse-slow {

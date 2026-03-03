@@ -94,6 +94,17 @@ export interface InitOrganizerParams {
   logoUri: string
 }
 
+export interface OrganizerProfileAccount {
+  authority: string
+  name: string
+  website: string
+  logoUri: string
+  totalEvents: bigint
+  totalTickets: bigint
+  totalRevenue: bigint
+  bump: number
+}
+
 export interface CreateEventParams {
   eventId: bigint
   name: string
@@ -128,6 +139,15 @@ export interface UpdateEventParams {
 export interface MintTicketParams {
   tierIndex: number
   metadataUri: string
+}
+
+export interface RefundRecord {
+  ticket: PublicKey
+  event: PublicKey
+  owner: PublicKey
+  amount: bigint
+  refundedAt: bigint
+  bump: number
 }
 
 

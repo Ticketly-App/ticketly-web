@@ -81,3 +81,10 @@ export function findPlatformConfigAddress(): PdaResult {
   )
 }
 
+export function findRefundRecordAddress(ticketPda: PublicKey): PdaResult {
+  return PublicKey.findProgramAddressSync(
+    [Buffer.from('refund'), ticketPda.toBuffer()],
+    new PublicKey(TICKETLY_PROGRAM_ID),
+  )
+}
+

@@ -8,6 +8,7 @@ import { addOperatorInstruction, removeOperatorInstruction } from '@/lib/ticketl
 import { Connection, PublicKey, Transaction } from '@solana/web3.js'
 import { toast } from 'sonner'
 import { sigDescription } from '@/components/use-transaction-toast'
+import { parseTransactionError } from '@/lib/parse-transaction-error'
 import { useQueryClient } from '@tanstack/react-query'
 
 export default function EventOperatorsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -52,7 +53,7 @@ export default function EventOperatorsPage({ params }: { params: Promise<{ id: s
       refetch()
     } catch (err) {
       console.error(err)
-      toast.error('Failed to add operator.', { description: err instanceof Error ? err.message : String(err) })
+      toast.error('Failed to add operator.', { description: parseTransactionError(err) })
     } finally { setIsSubmitting(false) }
   }
 
@@ -67,7 +68,7 @@ export default function EventOperatorsPage({ params }: { params: Promise<{ id: s
       refetch()
     } catch (err) {
       console.error(err)
-      toast.error('Failed to remove.', { description: err instanceof Error ? err.message : String(err) })
+      toast.error('Failed to remove.', { description: parseTransactionError(err) })
     } finally { setRemovingOp(null) }
   }
 

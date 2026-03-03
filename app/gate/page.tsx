@@ -9,36 +9,11 @@ import { fetchEventAccount, fetchTicketAccount, lamportsToSol } from '@/lib/tick
 import { findTicketMintAddress } from '@/lib/ticketly/pdas'
 import { toast } from 'sonner'
 import { sigDescription } from '@/components/use-transaction-toast'
+import { parseTransactionError } from '@/lib/parse-transaction-error'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 
 const TOKEN_METADATA_PROGRAM = new PublicKey('metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s')
-
-const PROGRAM_ERROR_MAP: Record<number, string> = {
-  6011: 'This event is not currently active.',
-  6012: 'This event has already ended.',
-  6013: 'Check-in is not open yet — it opens 1 hour before the event starts.',
-  6014: 'This event has been cancelled.',
-  6021: 'This ticket has already been checked in.',
-  6023: 'This ticket does not belong to the specified event.',
-  6024: 'The attendee no longer owns this ticket.',
-  6025: 'This ticket is listed for resale — the attendee must cancel the listing first.',
-  6027: 'Token mint mismatch — the ticket NFT does not match.',
-  6028: 'The attendee\'s wallet no longer holds this ticket token.',
-  6029: 'Token account owner mismatch.',
-  6041: 'Your wallet is not an authorized gate operator for this event.',
-}
-
-function parseOnChainError(err: unknown): string | null {
-  const msg = err instanceof Error ? err.message : String(err)
-  const codeMatch = msg.match(/custom program error: 0x([0-9a-fA-F]+)/)
-  if (codeMatch) {
-    const code = parseInt(codeMatch[1], 16)
-    return PROGRAM_ERROR_MAP[code] ?? `Transaction failed (program error ${code}).`
-  }
-  if (msg.includes('User rejected')) return 'Transaction was cancelled by the wallet.'
-  return null
-}
 
 type CheckInResult = {
   status: 'valid' | 'invalid' | 'already_used' | 'error'
@@ -160,10 +135,9 @@ export default function GatePage() {
       setTicketPubkey('')
     } catch (error) {
       console.error(error)
-      const friendly = parseOnChainError(error)
-      const message = friendly ?? (error instanceof Error ? error.message : String(error))
+      const message = parseTransactionError(error)
       setLastResult({ status: 'error', message })
-      toast.error(friendly ?? 'Check-in failed.')
+      toast.error(message)
     } finally {
       setIsChecking(false)
     }

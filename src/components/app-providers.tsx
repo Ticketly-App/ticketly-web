@@ -4,16 +4,19 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { ReactQueryProvider } from './react-query-provider'
 import { ClusterProvider } from '@/components/cluster/cluster-data-access'
 import { SolanaProvider } from '@/components/solana/solana-provider'
+import { SessionProvider } from 'next-auth/react'
 import React from 'react'
 
 export function AppProviders({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <ReactQueryProvider>
-        <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" disableTransitionOnChange>
-        <ClusterProvider>
-          <SolanaProvider>{children}</SolanaProvider>
-        </ClusterProvider>
-      </ThemeProvider>
-    </ReactQueryProvider>
+    <SessionProvider>
+      <ReactQueryProvider>
+          <ThemeProvider attribute="class" defaultTheme="dark" forcedTheme="dark" disableTransitionOnChange>
+          <ClusterProvider>
+            <SolanaProvider>{children}</SolanaProvider>
+          </ClusterProvider>
+        </ThemeProvider>
+      </ReactQueryProvider>
+    </SessionProvider>
   )
 }

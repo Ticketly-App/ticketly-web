@@ -63,7 +63,7 @@ export function ProfileCompleteModal() {
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in">
       <div
-        className="glass-strong rounded-3xl p-8 max-w-sm w-full mx-4 neon-border relative overflow-hidden animate-slide-up"
+        className="glass-strong rounded-3xl p-8 max-w-sm w-full mx-4 border border-white/10 relative overflow-hidden animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
@@ -74,16 +74,11 @@ export function ProfileCompleteModal() {
           <X className="w-4 h-4" />
         </button>
 
-        {/* Background glow */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[200px] bg-neon-cyan/10 rounded-full blur-[80px]" />
-        </div>
-
         <div className="relative space-y-6">
           {/* Icon */}
           <div className="flex justify-center">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-neon-cyan/20 to-brand-600/20 flex items-center justify-center shadow-lg shadow-cyan-500/10 neon-border-cyan">
-              <UserCircle className="w-8 h-8 text-neon-cyan" strokeWidth={1.5} />
+            <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center">
+              <UserCircle className="w-8 h-8 text-cyan-400" strokeWidth={1.5} />
             </div>
           </div>
 
@@ -105,8 +100,8 @@ export function ProfileCompleteModal() {
               'Build your organizer reputation',
             ].map((text) => (
               <div key={text} className="flex items-center gap-3 glass rounded-xl px-4 py-2.5">
-                <div className="w-5 h-5 rounded-full bg-neon-green/20 flex items-center justify-center flex-shrink-0">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#39FF14" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <div className="w-5 h-5 rounded-full bg-green-500/15 flex items-center justify-center flex-shrink-0">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </div>

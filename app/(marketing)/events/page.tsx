@@ -5,6 +5,8 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { EventCard } from '@/components/event/EventCard'
 import { useTicketlyEvents, mapTicketTier } from '@/hooks/use-ticketly-events'
+import { useOrganizerProfiles } from '@/hooks/use-organizer-profiles'
+import { OrganizerProfilePopup } from '@/components/organizer/OrganizerProfilePopup'
 
 const CATEGORIES = ['All', 'Music', 'Sports', 'Tech', 'Art', 'Food', 'Conference', 'Gaming', 'Fitness']
 const PAGE_SIZE = 12
@@ -14,13 +16,14 @@ export default function EventsPage() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [view, setView] = useState<'grid' | 'list'>('grid')
+  const [orgPopup, setOrgPopup] = useState<{ authority: string } | null>(null)
 
   const { data: rawEvents = [], isLoading } = useTicketlyEvents()
 
-  // Transform on-chain events to EventCard format (exclude cancelled & ended)
+  // Transform on-chain events to EventCard format (exclude cancelled & started/completed)
   const nowSec = BigInt(Math.floor(Date.now() / 1000))
   const allEvents = useMemo(() => {
-    return rawEvents.filter((ev) => !ev.isCancelled && ev.eventEnd > nowSec).map((ev) => {
+    return rawEvents.filter((ev) => !ev.isCancelled && ev.eventStart > nowSec).map((ev) => {
       const tiers = ev.ticketTiers.map(mapTicketTier)
       return {
         pubkey: ev.publicKey,
@@ -28,6 +31,7 @@ export default function EventsPage() {
         description: ev.description,
         venue: ev.venue,
         imageUri: ev.metadataUri,
+        authority: ev.authority,
         startTime: new Date(Number(ev.eventStart) * 1000).toISOString(),
         endTime: new Date(Number(ev.eventEnd) * 1000).toISOString(),
         categories: ev.symbol ? [ev.symbol] : [],
@@ -42,6 +46,10 @@ export default function EventsPage() {
       }
     })
   }, [rawEvents])
+
+  // Batch-fetch organizer profiles for all visible events
+  const authorities = useMemo(() => allEvents.map((e) => e.authority), [allEvents])
+  const { data: orgProfiles } = useOrganizerProfiles(authorities)
 
   // Client-side filtering
   const filtered = useMemo(() => {
@@ -185,7 +193,7 @@ export default function EventsPage() {
           {!isLoading && events.length > 0 && (
             <div className={view === "grid" ? "grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "space-y-3"}>
               {events.map((event: any) => (
-                <EventCard key={event.pubkey} event={event} view={view} />
+                <EventCard key={event.pubkey} event={event} view={view} orgProfile={orgProfiles?.get(event.authority)} onOrgClick={() => setOrgPopup({ authority: event.authority })} />
               ))}
             </div>
           )}
@@ -245,6 +253,17 @@ export default function EventsPage() {
           )}
         </div>
       </main>
+
+      {/* Organizer Profile Popup */}
+      {orgPopup && (
+        <OrganizerProfilePopup
+          organizer={orgProfiles?.get(orgPopup.authority) || null}
+          authority={orgPopup.authority}
+          allEvents={rawEvents}
+          onClose={() => setOrgPopup(null)}
+        />
+      )}
+
       <Footer />
     </div>
   );

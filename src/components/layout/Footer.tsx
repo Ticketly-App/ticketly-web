@@ -27,7 +27,7 @@ export function Footer() {
                   onError={() => setLogoError(true)}
                 />
               ) : (
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-400 to-brand-700 flex items-center justify-center text-sm font-display text-white">
+                <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-sm font-display text-white">
                   T
                 </div>
               )}

@@ -42,6 +42,10 @@ export interface TicketTierInfo {
   available: number
   isOnSale: boolean
   soldOut: boolean
+  saleStart: bigint
+  saleEnd: bigint
+  saleNotStarted: boolean
+  saleEnded: boolean
 }
 
 function mapEventAccountToTicketlyEvent(data: TicketlyEventAccount): TicketlyEvent {
@@ -112,6 +116,9 @@ export function useTicketlyEvent(eventPublicKey?: string) {
 
 export function mapTicketTier(tier: TicketTier, index: number): TicketTierInfo {
   const available = Math.max(0, tier.supply - tier.minted)
+  const nowSec = BigInt(Math.floor(Date.now() / 1000))
+  const saleNotStarted = tier.saleStart !== 0n && nowSec < tier.saleStart
+  const saleEnded = tier.saleEnd !== 0n && nowSec > tier.saleEnd
   return {
     tierIndex: index,
     tierType: tier.tierType.toString(),
@@ -122,6 +129,10 @@ export function mapTicketTier(tier: TicketTier, index: number): TicketTierInfo {
     available,
     isOnSale: tier.isOnSale,
     soldOut: available === 0,
+    saleStart: tier.saleStart,
+    saleEnd: tier.saleEnd,
+    saleNotStarted,
+    saleEnded,
   }
 }
 

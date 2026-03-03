@@ -51,6 +51,9 @@ export const INSTRUCTION_DISCRIMINATORS = {
   // Revenue & POAP
   WithdrawRevenue: getInstructionDiscriminator(['withdraw_revenue']),
   MintPoap: getInstructionDiscriminator(['mint_poap']),
+
+  // Refund
+  RefundTicket: getInstructionDiscriminator(['refund_ticket']),
 } as const
 
 export const ACCOUNT_DISCRIMINATORS = {
@@ -61,5 +64,6 @@ export const ACCOUNT_DISCRIMINATORS = {
   PoapRecord: new Uint8Array([44, 75, 50, 216, 240, 99, 62, 107]),
   TicketAccount: new Uint8Array([231, 93, 13, 18, 239, 66, 21, 45]),
   WhitelistEntry: new Uint8Array([51, 70, 173, 81, 219, 192, 234, 62]),
+  RefundRecord: new Uint8Array([101, 159, 85, 113, 48, 38, 7, 215]),
 } as const
 

@@ -9,6 +9,7 @@ import { Connection, PublicKey, Transaction } from '@solana/web3.js'
 import { lamportsToSol } from '@/lib/ticketly/ticketly-query'
 import { toast } from 'sonner'
 import { sigDescription } from '@/components/use-transaction-toast'
+import { parseTransactionError } from '@/lib/parse-transaction-error'
 import { useQueryClient } from '@tanstack/react-query'
 import { useQuery } from '@tanstack/react-query'
 
@@ -80,7 +81,7 @@ export default function RevenuePage() {
       refetch()
     } catch (err) {
       console.error(err)
-      toast.error('Withdraw failed.', { description: err instanceof Error ? err.message : String(err) })
+      toast.error('Withdraw failed.', { description: parseTransactionError(err) })
     } finally {
       setWithdrawingEvent(null)
     }
@@ -114,7 +115,7 @@ export default function RevenuePage() {
       refetch()
     } catch (err) {
       console.error(err)
-      toast.error('Withdraw failed.', { description: err instanceof Error ? err.message : String(err) })
+      toast.error('Withdraw failed.', { description: parseTransactionError(err) })
     } finally {
       setWithdrawingAll(false)
     }

@@ -1,6 +1,7 @@
-import { LAMPORTS_PER_SOL } from '@solana/web3.js'
+import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 import { getAccountByAddress, getProgramAccountsByType, type ProgramAccount } from './ticketly-accounts'
-import type { EventAccount, ListingAccount, TicketAccount } from './types'
+import type { EventAccount, ListingAccount, TicketAccount, OrganizerProfileAccount } from './types'
+import { findOrganizerAddress } from './pdas'
 
 export type TicketlyEventAccount = ProgramAccount<EventAccount>
 export type TicketlyListingAccount = ProgramAccount<ListingAccount>
@@ -33,6 +34,15 @@ export async function fetchTicketAccount(endpoint: string, address: string) {
 export function lamportsToSol(lamports: number | bigint) {
   const value = typeof lamports === 'bigint' ? Number(lamports) : lamports
   return value / LAMPORTS_PER_SOL
+}
+
+export async function fetchOrganizerProfile(endpoint: string, authority: string): Promise<OrganizerProfileAccount | null> {
+  try {
+    const [organizerPda] = findOrganizerAddress(new PublicKey(authority))
+    return await getAccountByAddress<OrganizerProfileAccount>(endpoint, 'OrganizerProfile', organizerPda.toBase58())
+  } catch {
+    return null
+  }
 }
 
 

@@ -9,9 +9,11 @@ import { findEventAddress, findOrganizerAddress } from '@/lib/ticketly/pdas'
 import type { CreateEventParams, InitOrganizerParams, TicketTier } from '@/lib/ticketly/types'
 import { toast } from 'sonner'
 import { sigDescription } from '@/components/use-transaction-toast'
+import { parseTransactionError } from '@/lib/parse-transaction-error'
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 import { ImageUpload } from '@/components/ui/ImageUpload'
+import { XAuthGate } from '@/components/auth/XAuthGate'
 
 const CATEGORIES = ['Music', 'Sports', 'Conference', 'Theatre', 'Art', 'Gaming', 'Food', 'Other']
 const TIER_PRESETS = [
@@ -39,6 +41,7 @@ export default function CreateEventPage() {
   const queryClient = useQueryClient()
   const { publicKey, sendTransaction, signTransaction } = useWallet()
   const { cluster } = useCluster()
+
   const [step, setStep] = useState<Step>('Basic Info')
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -262,13 +265,14 @@ export default function CreateEventPage() {
       router.push(`/dashboard/events/${eventPda.toBase58()}`)
     } catch (err) {
       console.error(err)
-      toast.error('Failed to create event.', { description: err instanceof Error ? err.message : String(err) })
+      toast.error('Failed to create event.', { description: parseTransactionError(err) })
     } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
+    <XAuthGate message="To create events on Ticketly, verify your X (Twitter) account first. This helps verify organizers and prevent spam.">
     <div className="space-y-6 max-w-3xl">
       <header>
         <h1 className="heading-display text-3xl text-white mb-2">Create Event</h1>
@@ -491,5 +495,6 @@ export default function CreateEventPage() {
         </div>
       </div>
     </div>
+    </XAuthGate>
   )
 }

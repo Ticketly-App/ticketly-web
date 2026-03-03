@@ -18,9 +18,9 @@ export function DashboardFeature() {
 
   const kpiCards: { label: string; value: string; icon: LucideIcon; accent: boolean; iconBg: string; iconColor: string }[] = [
     { label: 'Total Revenue', value: `${lamportsToSol(totalRevenue).toFixed(4)} SOL`, icon: DollarSign, accent: true, iconBg: 'bg-brand-600/15', iconColor: 'text-brand-400' },
-    { label: 'Tickets Sold', value: totalSold.toLocaleString(), icon: Ticket, accent: false, iconBg: 'bg-cyan-500/15', iconColor: 'text-neon-cyan' },
-    { label: 'Checked In', value: totalCheckedIn.toLocaleString(), icon: UserCheck, accent: false, iconBg: 'bg-green-500/15', iconColor: 'text-neon-green' },
-    { label: 'Active Events', value: myEvents.filter((e) => e.isActive && !e.isCancelled).length.toString(), icon: CalendarDays, accent: false, iconBg: 'bg-amber-500/15', iconColor: 'text-amber-400' },
+    { label: 'Tickets Sold', value: totalSold.toLocaleString(), icon: Ticket, accent: false, iconBg: 'bg-cyan-500/10', iconColor: 'text-cyan-400' },
+    { label: 'Checked In', value: totalCheckedIn.toLocaleString(), icon: UserCheck, accent: false, iconBg: 'bg-green-500/10', iconColor: 'text-green-400' },
+    { label: 'Active Events', value: myEvents.filter((e) => e.isActive && !e.isCancelled).length.toString(), icon: CalendarDays, accent: false, iconBg: 'bg-amber-500/10', iconColor: 'text-amber-400' },
   ]
 
   return (
@@ -41,7 +41,7 @@ export function DashboardFeature() {
         {kpiCards.map((s) => {
           const Icon = s.icon
           return (
-            <div key={s.label} className="glass rounded-xl p-5 group hover:bg-white/03 transition-all hover:shadow-lg hover:shadow-brand-600/5">
+            <div key={s.label} className="glass rounded-xl p-5 group hover:bg-white/03 transition-all">
               <div className="flex items-center justify-between mb-3">
                 <p className="text-xs text-white/40 uppercase tracking-wider">{s.label}</p>
                 <div className={`w-9 h-9 rounded-lg ${s.iconBg} flex items-center justify-center`}>
@@ -116,7 +116,7 @@ export function DashboardFeature() {
 
       {/* Quick Links */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Link href="/dashboard/revenue" className="glass rounded-xl p-5 hover:bg-white/03 transition-all group hover:shadow-lg hover:shadow-brand-600/5">
+        <Link href="/dashboard/revenue" className="glass rounded-xl p-5 hover:bg-white/03 transition-all group hover:bg-white/03">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-9 h-9 rounded-lg bg-brand-600/15 flex items-center justify-center">
               <DollarSign className="w-4 h-4 text-brand-400" strokeWidth={1.5} />
@@ -125,10 +125,10 @@ export function DashboardFeature() {
           </div>
           <p className="text-xs text-white/40 ml-12">Withdraw program revenue from your event PDAs.</p>
         </Link>
-        <Link href="/gate" className="glass rounded-xl p-5 hover:bg-white/03 transition-all group hover:shadow-lg hover:shadow-brand-600/5">
+        <Link href="/gate" className="glass rounded-xl p-5 hover:bg-white/03 transition-all group hover:bg-white/03">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-9 h-9 rounded-lg bg-cyan-500/15 flex items-center justify-center">
-              <ScanLine className="w-4 h-4 text-neon-cyan" strokeWidth={1.5} />
+            <div className="w-9 h-9 rounded-lg bg-cyan-500/10 flex items-center justify-center">
+              <ScanLine className="w-4 h-4 text-cyan-400" strokeWidth={1.5} />
             </div>
             <h3 className="font-display text-white group-hover:text-brand-400 transition-colors">Gate Scanner</h3>
           </div>
